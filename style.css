@@ -29,7 +29,7 @@
 
   --w-page:     1100px;            /* largeur maximale */
   --w-read:     800px;            /* largeur de lecture (760–820) */
-  --w-toc:      220px;
+  --w-toc:      320px;
 
   --space:      clamp(3rem, 8vw, 7rem);   /* respiration entre chapitres */
 }
