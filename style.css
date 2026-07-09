@@ -219,7 +219,7 @@ strong { font-weight: 600; }
   margin-top: 0.5rem;
 }
 .hero__lead {
-  max-width: 34rem;
+  max-width: 35rem;
   margin: 2.5rem auto 0;
   color: var(--c-secondary);
   font-size: 1.1rem;
