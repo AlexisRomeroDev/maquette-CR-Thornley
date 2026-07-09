@@ -5,6 +5,7 @@
      2. Chapitre actif au défilement
      3. Notes interactives (popover, le lecteur ne quitte pas le texte)
      4. Visionneuse d'images (clic, ESC, clic hors image, clavier)
+     5. Apparition du menu sous le hero (accueil, desktop)
    ========================================================================= */
 (function () {
   'use strict';
@@ -36,8 +37,8 @@
   });
 
   /* 2. Chapitre actif au défilement -------------------------------------- */
-  /* Le menu est identique sur les 3 pages : on ne suit au défilement que les
-     liens dont la cible se trouve sur la page courante. */
+  /* Le menu est identique sur toutes les pages : on ne suit au défilement que
+     les liens dont la cible se trouve sur la page courante. */
   var currentFile = (location.pathname.split('/').pop() || 'index.html');
   var links = Array.prototype.slice.call(toc.querySelectorAll('a[href]'));
   var byId = {};        // id de section -> lien correspondant (page courante)
@@ -45,14 +46,17 @@
 
   links.forEach(function (a) {
     var href = a.getAttribute('href');
-    var hashPos = href.indexOf('#');
-    var file = (hashPos === -1 ? href : href.slice(0, hashPos)) || currentFile;
-    var hash = hashPos === -1 ? '' : href.slice(hashPos + 1);
+    if (!href || href === '#') { return; }   // placeholder sans cible
 
-    if (file !== currentFile) { return; }   // lien vers une autre page
+    var hashPos = href.indexOf('#');
+    var rawFile = hashPos === -1 ? href : href.slice(0, hashPos);
+    var hash = hashPos === -1 ? '' : href.slice(hashPos + 1);
+    var file = rawFile || currentFile;       // "#ancre" seule -> page courante
+
+    if (file !== currentFile) { return; }    // lien vers une autre page
 
     if (!hash) {
-      a.classList.add('is-active');          // lien de la page courante, sans ancre
+      if (rawFile) { a.classList.add('is-active'); }  // lien de la page courante
       return;
     }
     var el = document.getElementById(hash);
@@ -201,4 +205,32 @@
     removePopover();
     if (toc.classList.contains('is-open')) { closeToc(); }
   });
+
+  /* 5. Apparition du menu sous le hero (accueil, desktop) ---------------- */
+  /* Le menu suit le bas du hero : masqué sous le pli, il remonte au rythme
+     du défilement (son haut d'abord) puis se fixe en haut (décalage 0). */
+  var cover = document.querySelector('.hero--cover');
+  if (cover) {
+    var desktop = window.matchMedia('(min-width: 1100px)');
+    var pending = false;
+
+    var updateReveal = function () {
+      pending = false;
+      if (!desktop.matches) {           // mobile/tablette : sommaire à bascule
+        toc.style.removeProperty('--toc-reveal');
+        return;
+      }
+      var reveal = Math.max(0, cover.getBoundingClientRect().bottom);
+      toc.style.setProperty('--toc-reveal', reveal + 'px');
+    };
+
+    var onScroll = function () {
+      if (!pending) { pending = true; requestAnimationFrame(updateReveal); }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateReveal);
+    if (desktop.addEventListener) { desktop.addEventListener('change', updateReveal); }
+    updateReveal();                     // état initial
+  }
 })();

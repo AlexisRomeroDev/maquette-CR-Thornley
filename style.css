@@ -98,6 +98,18 @@ strong { font-weight: 600; }
   border-right: 1px solid var(--c-rule);
   background: var(--c-bg);
 }
+/* Page d'accueil (desktop) : le menu est masqué sous le hero plein écran,
+   puis remonte au rythme du défilement — comme s'il était collé sous le hero —
+   avant de se fixer en haut. Le décalage --toc-reveal est piloté par le JS. */
+@media (min-width: 1100px) {
+  body.is-home .toc {
+    transform: translateY(var(--toc-reveal, 100vh));
+    /* Sous le hero (z-index < .hero--cover) : masque le débordement d'une
+       frame à la jointure, le temps que le translateY rattrape le scroll. */
+    z-index: 1;
+    will-change: transform;   /* couche dédiée : glissement plus fluide */
+  }
+}
 .toc__title {
   font-family: var(--font-title);
   font-size: 1rem;
@@ -121,6 +133,22 @@ strong { font-weight: 600; }
   color: var(--c-accent-ink);
   border-left-color: var(--c-accent);
   font-weight: 600;
+}
+
+/* Lien mis en exergue (discret) : l'index des œuvres, cœur du catalogue */
+.toc__list a.is-feature {
+  color: var(--c-accent-ink);
+  font-weight: 600;
+}
+.toc__list a.is-feature::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--c-accent);
 }
 
 /* Sous-niveau du menu (2e niveau) */
@@ -206,6 +234,7 @@ strong { font-weight: 600; }
 /* Hero pleine page avec image de fond et texte au premier plan */
 .hero--cover {
   position: relative;
+  z-index: 2;                /* au-dessus du menu qui remonte en dessous */
   min-height: 100vh;
   margin-bottom: 0;
   padding: var(--space) 1.5rem;
