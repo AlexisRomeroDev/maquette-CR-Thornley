@@ -1,0 +1,433 @@
+/* =========================================================================
+   Catalogue raisonné numérique — socle éditorial réutilisable
+   Aucune dépendance externe (hors Google Fonts). CSS moderne.
+   Sommaire :
+     1. Variables
+     2. Typography
+     3. Layout
+     4. Navigation
+     5. Hero
+     6. Sections
+     7. Figures
+     8. Gallery
+     9. Notes
+    10. Lightbox
+    11. Responsive
+   ========================================================================= */
+
+/* 1. Variables ---------------------------------------------------------- */
+:root {
+  --c-bg:        #faf8f5;
+  --c-text:      #222222;
+  --c-secondary: #666666;
+  --c-rule:      #ddd8d2;
+  --c-accent:    #7d8a6a;          /* vert sauge discret */
+  --c-accent-ink:#5f6a4f;
+
+  --font-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body:  "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --w-page:     1100px;            /* largeur maximale */
+  --w-read:     800px;            /* largeur de lecture (760–820) */
+  --w-toc:      220px;
+
+  --space:      clamp(3rem, 8vw, 7rem);   /* respiration entre chapitres */
+}
+
+/* 2. Typography --------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.75;
+  font-weight: 380;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-title);
+  font-weight: 500;
+  line-height: 1.15;
+  margin: 0;
+}
+
+p { margin: 0 0 1.35em; }
+p.lead { text-align: justify; }
+
+a { color: var(--c-accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--c-accent); }
+
+em, i { font-style: italic; }
+strong { font-weight: 600; }
+
+/* 3. Layout ------------------------------------------------------------- */
+.page {
+  max-width: var(--w-page);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem);
+}
+
+/* Column de lecture centrée dans laquelle vit le texte courant */
+.reading {
+  max-width: var(--w-read);
+  margin-inline: auto;
+}
+
+.chapter { padding-block: var(--space); }
+.chapter + .chapter { border-top: 1px solid var(--c-rule); }
+
+/* 4. Navigation --------------------------------------------------------- */
+.toc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--w-toc);
+  height: 100vh;
+  padding: clamp(2rem, 5vh, 4rem) 1.5rem;
+  overflow-y: auto;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  border-right: 1px solid var(--c-rule);
+  background: var(--c-bg);
+}
+.toc__title {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-secondary);
+  margin-bottom: 1.5rem;
+}
+.toc__list { list-style: none; margin: 0; padding: 0; }
+.toc__list li { margin: 0 0 0.9rem; }
+.toc__list a {
+  color: var(--c-secondary);
+  text-decoration: none;
+  display: block;
+  padding-left: 0.9rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.toc__list a:hover { color: var(--c-text); }
+.toc__list a.is-active {
+  color: var(--c-accent-ink);
+  border-left-color: var(--c-accent);
+  font-weight: 600;
+}
+
+/* Bouton repli (mobile / tablette) */
+.toc-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 40;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 2px;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 5. Hero --------------------------------------------------------------- */
+.hero {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-block: var(--space);
+}
+.hero__kicker {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-secondary);
+  margin-bottom: 2rem;
+}
+.hero__title {
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.hero__dates {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  font-style: italic;
+  color: var(--c-secondary);
+  margin-top: 0.5rem;
+}
+.hero__lead {
+  max-width: 34rem;
+  margin: 2.5rem auto 0;
+  color: var(--c-secondary);
+  font-size: 1.1rem;
+}
+.hero__rule {
+  width: 3rem;
+  height: 1px;
+  background: var(--c-accent);
+  margin: 2.5rem auto 0;
+}
+
+/* 6. Sections ----------------------------------------------------------- */
+/* Ouverture de chapitre : filet, titre, filet */
+.chapter__head { text-align: center; margin-bottom: 3.5rem; }
+.chapter__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 1rem;
+}
+.chapter__title { font-size: clamp(2rem, 5vw, 3rem); }
+
+/* Ouverture de « période » (sous-chapitre daté) */
+.period {
+  text-align: center;
+  margin: var(--space) auto 3rem;
+  max-width: var(--w-read);
+}
+.period::before,
+.period::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--c-rule);
+}
+.period__inner { padding: 2rem 0; }
+.period__date {
+  font-family: var(--font-title);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--c-accent-ink);
+  letter-spacing: 0.02em;
+}
+.period__title {
+  font-family: var(--font-title);
+  font-style: italic;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--c-secondary);
+  margin-top: 0.4rem;
+}
+
+/* Citation de presse */
+.pullquote {
+  max-width: var(--w-read);
+  margin: 3.5rem auto;
+  text-align: center;
+  border: 0;
+}
+.pullquote p {
+  font-family: var(--font-title);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--c-text);
+  margin-bottom: 0.8rem;
+}
+.pullquote cite {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-secondary);
+}
+
+/* 7. Figures ------------------------------------------------------------ */
+/* Compteur automatique des figures (réinitialisé par chapitre) */
+.chapter { counter-reset: figure; }
+
+figure {
+  margin: 3rem auto;
+  max-width: var(--w-read);
+}
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  cursor: zoom-in;
+}
+figcaption {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-secondary);
+  margin-top: 0.9rem;
+  padding-left: 0.1rem;
+}
+figcaption::before {
+  counter-increment: figure;
+  content: "Figure " counter(figure);
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.25rem;
+}
+
+/* Portrait : image haute, colonne resserrée */
+figure.is-portrait { max-width: 30rem; }
+/* Paysage important : débordement maîtrisé au-delà de la colonne */
+figure.is-landscape.is-wide { max-width: var(--w-page); }
+
+/* 8. Gallery ------------------------------------------------------------ */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: var(--w-read);
+  margin: 3rem auto;
+}
+.gallery.is-wide { max-width: var(--w-page); }
+.gallery figure { margin: 0; max-width: none; }
+.gallery figcaption::before { content: "Figure " counter(figure); }
+/* Les figures d'une galerie partagent le compteur global du chapitre */
+
+/* 9. Notes -------------------------------------------------------------- */
+.note-ref {
+  font-size: 0.72em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--c-accent-ink);
+  text-decoration: none;
+  padding: 0 0.15em;
+  font-weight: 600;
+}
+.note-ref:hover { color: var(--c-accent); }
+
+.notes-list { list-style: none; counter-reset: none; margin: 0; padding: 0; }
+.notes-list li {
+  font-size: 0.92rem;
+  color: var(--c-secondary);
+  margin-bottom: 1rem;
+  padding-left: 1.6rem;
+  text-indent: -1.6rem;
+}
+.note-back { text-decoration: none; margin-left: 0.4rem; }
+
+/* Popover de note (injecté par le JS) */
+.note-popover {
+  position: absolute;
+  z-index: 50;
+  max-width: min(22rem, 80vw);
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--c-text);
+  border-radius: 2px;
+}
+.note-popover::before {
+  content: "Note";
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.4rem;
+}
+
+/* 10. Lightbox (visionneuse maison) ------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(28, 25, 22, 0.94);
+  padding: 4vh 4vw;
+}
+.lightbox.is-open { display: flex; }
+.lightbox__img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+}
+.lightbox__caption {
+  position: absolute;
+  bottom: 2vh;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #e9e4dd;
+  font-size: 0.85rem;
+  padding: 0 2rem;
+}
+.lightbox__btn {
+  position: absolute;
+  background: none;
+  border: 0;
+  color: #e9e4dd;
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 1rem;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+.lightbox__btn:hover { opacity: 1; }
+.lightbox__close { top: 1vh; right: 1vw; font-size: 2rem; }
+.lightbox__prev { left: 1vw; top: 50%; transform: translateY(-50%); }
+.lightbox__next { right: 1vw; top: 50%; transform: translateY(-50%); }
+
+/* 11. Responsive -------------------------------------------------------- */
+/* Desktop : la colonne de lecture est décalée pour laisser vivre le sommaire */
+@media (min-width: 1100px) {
+  .page { padding-left: calc(var(--w-toc) + 3vw); padding-right: 3vw; }
+}
+
+/* Tablette & mobile : sommaire repliable */
+@media (max-width: 1099px) {
+  .toc {
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    z-index: 30;
+    box-shadow: 0 0 40px rgba(0,0,0,0.15);
+    width: min(280px, 82vw);
+  }
+  .toc.is-open { transform: translateX(0); }
+  .toc-toggle { display: flex; }
+  body.toc-open { overflow: hidden; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 1.05rem; }
+  .gallery { grid-template-columns: 1fr; }
+  figure.is-portrait { max-width: 100%; }
+  .lightbox__prev { left: 0; }
+  .lightbox__next { right: 0; }
+}
+
+/* Confort de lecture : respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+html { scroll-behavior: smooth; }
