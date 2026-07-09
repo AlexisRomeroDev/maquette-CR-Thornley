@@ -382,6 +382,40 @@ figure.is-landscape.is-wide { max-width: var(--w-page); }
 .gallery figcaption::before { content: "Figure " counter(figure); }
 /* Les figures d'une galerie partagent le compteur global du chapitre */
 
+/* Page « À propos » : prose longue (sous-titres, listes, encarts image).
+   Sélecteurs scopés à .about-prose pour ne pas affecter .notes-list & co. */
+.about-prose h3 {
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 1.45rem;
+  color: var(--c-accent-ink);
+  margin: 2.5rem 0 0.6rem;
+}
+.about-prose ul,
+.about-prose ol {
+  margin: 0 0 1.35em;
+  padding-left: 1.5rem;
+}
+.about-prose li { margin-bottom: 0.55em; }
+.placeholder-media {
+  margin: 1.8rem 0;
+  padding: 0.9rem 1.15rem;
+  border: 1px dashed var(--c-rule);
+  color: var(--c-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.placeholder-media::before {
+  content: "Image à insérer";
+  display: block;
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.25rem;
+}
+
 /* 9. Notes -------------------------------------------------------------- */
 .note-ref {
   font-size: 0.72em;
