@@ -36,16 +36,31 @@
   });
 
   /* 2. Chapitre actif au défilement -------------------------------------- */
-  var links = Array.prototype.slice.call(toc.querySelectorAll('.toc__list a'));
-  var byId = {};
-  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  /* Le menu est identique sur les 3 pages : on ne suit au défilement que les
+     liens dont la cible se trouve sur la page courante. */
+  var currentFile = (location.pathname.split('/').pop() || 'index.html');
+  var links = Array.prototype.slice.call(toc.querySelectorAll('a[href]'));
+  var byId = {};        // id de section -> lien correspondant (page courante)
+  var sections = [];
 
-  var sections = links
-    .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
-    .filter(Boolean);
+  links.forEach(function (a) {
+    var href = a.getAttribute('href');
+    var hashPos = href.indexOf('#');
+    var file = (hashPos === -1 ? href : href.slice(0, hashPos)) || currentFile;
+    var hash = hashPos === -1 ? '' : href.slice(hashPos + 1);
+
+    if (file !== currentFile) { return; }   // lien vers une autre page
+
+    if (!hash) {
+      a.classList.add('is-active');          // lien de la page courante, sans ancre
+      return;
+    }
+    var el = document.getElementById(hash);
+    if (el) { byId[hash] = a; sections.push(el); }
+  });
 
   function setActive(id) {
-    links.forEach(function (a) { a.classList.remove('is-active'); });
+    Object.keys(byId).forEach(function (k) { byId[k].classList.remove('is-active'); });
     if (byId[id]) { byId[id].classList.add('is-active'); }
   }
 
@@ -120,63 +135,70 @@
   });
 
   /* 4. Visionneuse (lightbox) -------------------------------------------- */
+  /* Optionnelle : certaines pages (présentation, bibliographie) n'ont ni
+     figures ni surcouche visionneuse. */
   var images = Array.prototype.slice.call(document.querySelectorAll('figure img'));
   var lb = document.getElementById('lightbox');
-  var lbImg = lb.querySelector('.lightbox__img');
-  var lbCap = lb.querySelector('.lightbox__caption');
-  var current = 0;
 
-  function captionFor(img) {
-    var fig = img.closest('figure');
-    var cap = fig && fig.querySelector('figcaption');
-    return cap ? cap.textContent.trim() : (img.alt || '');
-  }
+  if (lb && images.length) {
+    var lbImg = lb.querySelector('.lightbox__img');
+    var lbCap = lb.querySelector('.lightbox__caption');
+    var current = 0;
 
-  function openLightbox(index) {
-    current = index;
-    var img = images[current];
-    lbImg.src = img.currentSrc || img.src;
-    lbImg.alt = img.alt || '';
-    lbCap.textContent = captionFor(img);
-    lb.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
+    var captionFor = function (img) {
+      var fig = img.closest('figure');
+      var cap = fig && fig.querySelector('figcaption');
+      return cap ? cap.textContent.trim() : (img.alt || '');
+    };
 
-  function closeLightbox() {
-    lb.classList.remove('is-open');
-    lbImg.src = '';
-    document.body.style.overflow = '';
-  }
+    var openLightbox = function (index) {
+      current = index;
+      var img = images[current];
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt || '';
+      lbCap.textContent = captionFor(img);
+      lb.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    };
 
-  function step(delta) {
-    current = (current + delta + images.length) % images.length;
-    openLightbox(current);
-  }
+    var closeLightbox = function () {
+      lb.classList.remove('is-open');
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    };
 
-  images.forEach(function (img, i) {
-    img.addEventListener('click', function () { openLightbox(i); });
-  });
+    var step = function (delta) {
+      current = (current + delta + images.length) % images.length;
+      openLightbox(current);
+    };
 
-  lb.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
-  lb.querySelector('.lightbox__prev').addEventListener('click', function (e) { e.stopPropagation(); step(-1); });
-  lb.querySelector('.lightbox__next').addEventListener('click', function (e) { e.stopPropagation(); step(1); });
+    images.forEach(function (img, i) {
+      img.addEventListener('click', function () { openLightbox(i); });
+    });
 
-  // Clic hors de l'image (sur le fond)
-  lb.addEventListener('click', function (e) {
-    if (e.target === lb) { closeLightbox(); }
-  });
+    lb.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
+    lb.querySelector('.lightbox__prev').addEventListener('click', function (e) { e.stopPropagation(); step(-1); });
+    lb.querySelector('.lightbox__next').addEventListener('click', function (e) { e.stopPropagation(); step(1); });
 
-  // Navigation clavier + fermeture des surcouches
-  document.addEventListener('keydown', function (e) {
-    if (lb.classList.contains('is-open')) {
+    // Clic hors de l'image (sur le fond)
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb) { closeLightbox(); }
+    });
+
+    // Navigation clavier propre à la visionneuse
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('is-open')) { return; }
       if (e.key === 'Escape') { closeLightbox(); }
       else if (e.key === 'ArrowLeft') { step(-1); }
       else if (e.key === 'ArrowRight') { step(1); }
-      return;
-    }
-    if (e.key === 'Escape') {
-      removePopover();
-      if (toc.classList.contains('is-open')) { closeToc(); }
-    }
+    });
+  }
+
+  // Échap ferme la note ouverte et le sommaire (hors visionneuse)
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') { return; }
+    if (lb && lb.classList.contains('is-open')) { return; }
+    removePopover();
+    if (toc.classList.contains('is-open')) { closeToc(); }
   });
 })();

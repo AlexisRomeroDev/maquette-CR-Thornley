@@ -123,6 +123,24 @@ strong { font-weight: 600; }
   font-weight: 600;
 }
 
+/* Sous-niveau du menu (2e niveau) */
+.toc__sublist {
+  list-style: none;
+  margin: 0.6rem 0 0.2rem;
+  padding: 0;
+}
+.toc__sublist li { margin: 0 0 0.7rem; }
+.toc__sublist a {
+  padding-left: 1.7rem;
+  font-size: 0.95em;
+  color: var(--c-secondary);
+}
+.toc__sublist a::before {
+  content: "—";
+  margin-right: 0.5rem;
+  color: var(--c-rule);
+}
+
 /* Bouton repli (mobile / tablette) */
 .toc-toggle {
   display: none;
@@ -183,6 +201,36 @@ strong { font-weight: 600; }
   height: 1px;
   background: var(--c-accent);
   margin: 2.5rem auto 0;
+}
+
+/* Hero pleine page avec image de fond et texte au premier plan */
+.hero--cover {
+  position: relative;
+  min-height: 100vh;
+  margin-bottom: 0;
+  padding: var(--space) 1.5rem;
+  background-color: #2a2622;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #f4efe8;
+}
+.hero--cover::before {                 /* voile pour la lisibilité du texte */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(20,18,16,0.35), rgba(20,18,16,0.62));
+}
+.hero--cover > * { position: relative; z-index: 1; }
+.hero--cover .hero__title { color: #ffffff; }
+.hero--cover .hero__kicker,
+.hero--cover .hero__dates,
+.hero--cover .hero__lead { color: rgba(244,239,232,0.88); }
+.hero--cover .hero__rule { background: rgba(244,239,232,0.85); }
+
+@media (min-width: 1100px) {
+  /* décale le contenu centré pour tenir compte du sommaire fixe */
+  .hero--cover { padding-left: calc(var(--w-toc) + 1.5rem); }
 }
 
 /* 6. Sections ----------------------------------------------------------- */

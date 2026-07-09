@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>William Thornley (1857–1935) — Catalogue raisonné</title>
-  <meta name="description" content="Page éditoriale d'introduction au catalogue raisonné numérique consacré au peintre William Thornley (1857–1935).">
+  <title>Qui est William Thornley&nbsp;? — Catalogue raisonné</title>
+  <meta name="description" content="Biographie et parcours artistique du peintre William Thornley (1857–1935), catalogue raisonné numérique.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&display=swap" rel="stylesheet">
@@ -15,49 +15,31 @@
   <!-- Bouton de repli du sommaire (tablette / mobile) -->
   <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc" aria-label="Ouvrir le sommaire">☰</button>
 
-  <!-- Sommaire latéral -->
-  <nav class="toc" id="toc" aria-label="Sommaire">
+  <!-- Menu (identique sur toutes les pages) -->
+  <nav class="toc" id="toc" aria-label="Menu principal">
     <p class="toc__title">Sommaire</p>
     <ul class="toc__list">
-      <li><a href="#presentation">Présentation</a></li>
-      <li><a href="#biographie">Qui est William Thornley&nbsp;?</a></li>
-      <li><a href="#parcours">Parcours artistique</a></li>
-      <li><a href="#musee">Le musée William Thornley</a></li>
-      <li><a href="#notes">Notes</a></li>
-      <li><a href="#bibliographie">Bibliographie</a></li>
+      <li><a href="home.html">Présentation</a></li>
+      <li>
+        <a href="index.html#biographie">Qui est William Thornley&nbsp;?</a>
+        <ul class="toc__sublist">
+          <li><a href="index.html#periode-1">1878–1895 · Les années de formation</a></li>
+          <li><a href="index.html#periode-2">1895–1907 · L'âge d'or de l'aquarelle</a></li>
+          <li><a href="index.html#periode-3">1907–1935 · Voyages et atelier d'Osny</a></li>
+        </ul>
+      </li>
+      <li><a href="museum.html">Le musée William Thornley</a></li>
+      <li><a href="bibliography.html">Bibliographie</a></li>
     </ul>
   </nav>
 
   <main class="page">
 
-    <!-- ===================== HERO ===================== -->
-    <header class="hero" id="hero">
-      <p class="hero__kicker">Catalogue raisonné numérique</p>
-      <h1 class="hero__title">William Thornley</h1>
-      <p class="hero__dates">1857 — 1935</p>
-      <p class="hero__lead">Peintre voyageur, aquarelliste et lithographe. Une première synthèse scientifique consacrée à un «&nbsp;petit maître&nbsp;» encore méconnu.</p>
-      <span class="hero__rule" aria-hidden="true"></span>
-    </header>
-
-    <!-- ===================== PRÉSENTATION ===================== -->
-    <section class="chapter" id="presentation" aria-labelledby="presentation-title">
-      <div class="chapter__head reading">
-        <p class="chapter__eyebrow">Introduction</p>
-        <h2 class="chapter__title" id="presentation-title">Présentation</h2>
-      </div>
-      <div class="reading">
-        <p class="lead">Reconnu par ses pairs et les critiques de son vivant comme excellent lithographe puis aquarelliste, William Thornley n'a — comme nombre de «&nbsp;petits maîtres&nbsp;» — jamais fait l'objet d'une synthèse scientifique.</p>
-        <p class="lead">Si son nom apparaît dans divers dictionnaires, seules deux publications grand public lui ont rendu hommage&nbsp;: la première en 1994, lors de la grande exposition rétrospective organisée par la ville d'Osny au château de Grouchy&nbsp;; la seconde en 2018, à l'initiative du département du Val-d'Oise, dans le cadre du partenariat mis en place entre les deux collectivités en 2015.</p>
-        <p class="lead">Il s'agissait donc de combler un vide criant, en reprenant à la source les informations disponibles.</p>
-        <p class="lead">Le présent catalogue raisonné, adossé à une monographie de l'artiste en préparation, vise à combler cette lacune, à notre sens injustifiée. Les textes qui suivent seront développés dans la monographie en préparation.</p>
-      </div>
-    </section>
-
-    <!-- ===================== BIOGRAPHIE ===================== -->
+    <!-- ===================== BIOGRAPHIE (H1 de la page) ===================== -->
     <section class="chapter" id="biographie" aria-labelledby="biographie-title">
       <div class="chapter__head reading">
         <p class="chapter__eyebrow">Biographie</p>
-        <h2 class="chapter__title" id="biographie-title">Qui est William Thornley&nbsp;?</h2>
+        <h1 class="chapter__title" id="biographie-title">Qui est William Thornley&nbsp;?</h1>
       </div>
 
       <div class="reading">
@@ -157,7 +139,7 @@
       </div>
 
       <!-- Période 1 -->
-      <div class="period">
+      <div class="period" id="periode-1">
         <div class="period__inner">
           <p class="period__date">1878 — 1895</p>
           <p class="period__title">Les années de formation et l'exercice de la lithographie</p>
@@ -254,7 +236,7 @@
       </div>
 
       <!-- Période 2 -->
-      <div class="period">
+      <div class="period" id="periode-2">
         <div class="period__inner">
           <p class="period__date">1895 — 1905/1907</p>
           <p class="period__title">L'âge d'or de l'aquarelle</p>
@@ -305,7 +287,7 @@
       </div>
 
       <!-- Période 3 -->
-      <div class="period">
+      <div class="period" id="periode-3">
         <div class="period__inner">
           <p class="period__date">1905/1907 — 1935</p>
           <p class="period__title">Voyages et expositions à l'atelier d'Osny</p>
@@ -378,133 +360,6 @@
       </figure>
     </section>
 
-    <!-- ===================== LE MUSÉE ===================== -->
-    <section class="chapter" id="musee" aria-labelledby="musee-title">
-      <div class="chapter__head reading">
-        <p class="chapter__eyebrow">Collection</p>
-        <h2 class="chapter__title" id="musee-title">Le musée William Thornley à Osny</h2>
-      </div>
-
-      <div class="reading">
-        <p>Le musée William Thornley d'Osny (Val-d'Oise) est la seule collection publique consacrée à l'artiste. Il ouvre ses portes en 1996, finalisant un long et patient travail de la Ville, soutenu par la ferveur de Christian Gourmelen. Maire de 1971 à 2011, il s'est passionné pour cette figure osnyssoise qui tendait à disparaître des mémoires.</p>
-        <p>L'aventure commence en novembre 1977 avec une exposition consacrée à Charles Faroux (1861-1946), ami de Thornley, qui réunit une cinquantaine de dessins, dont plusieurs représentent Osny et ses environs.</p>
-        <p>En 1981, une première rétrospective William Thornley présente, dans l'ancienne mairie, cinquante et une œuvres (tous médiums confondus) et pose les premiers jalons de la (re)découverte de l'artiste. Elle permet de nouer un contact avec la veuve de Félix Robin (1888-1969), dernier élève de Thornley, qui aboutira à un don important de souvenirs de l'artiste&nbsp;: faluche (large béret de velours noir), décorations, palette et boîte d'aquarelles, livres ayant appartenu à l'artiste et à ses parents. La Ville débute dans le même temps une politique judicieuse d'acquisitions permettant de créer le premier noyau de la collection osnyssoise.</p>
-      </div>
-
-      <div class="gallery">
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/1-Entree-du-village-d-Osny-6a44d56c3ee5e.jpg" width="2381" height="1997" alt="Entrée du village d'Osny" loading="lazy" style="aspect-ratio:2381/1997;">
-          <figcaption>Entrée du village d'Osny. Acquis en 1982.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/2-Champs-aux-environs-d-Osnycompressed-6a44d5eaa1e45.jpg" width="3972" height="2945" alt="Champs aux environs d'Osny" loading="lazy" style="aspect-ratio:3972/2945;">
-          <figcaption>Champs aux environs d'Osny.</figcaption>
-        </figure>
-      </div>
-
-      <div class="reading">
-        <p>Treize ans plus tard, une seconde rétrospective est organisée au château de Grouchy, devenu siège de la municipalité. Quoique de courte durée (15-30 octobre 1994), l'événement mobilise prêteurs publics et privés. Une centaine d'œuvres et de documents sont réunis (photographies, lithographies, dessins, aquarelles et huiles), préfigurant la création de l'Espace William Thornley, aménagé au troisième étage du château, sous la magnifique charpente restaurée pour l'occasion, et inauguré en octobre 1996.</p>
-        <p>De 1994 à 1996, le premier noyau de collection s'enrichit de nouvelles acquisitions, notamment via la salle des ventes de Pontoise. Il revient à cette dernière d'avoir repositionné Thornley au sein d'un mouvement artistique alors dénommé <i>l'École de Pontoise, Auvers-sur-Oise &amp; la peinture française du XIX<sup>e</sup> siècle</i>.</p>
-      </div>
-
-      <div class="gallery">
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/3-le-Vert-Galant-sans-cadre-6a44d5ffc0ec7.png" width="604" height="457" alt="Paris, le Vert-Galant" loading="lazy" style="aspect-ratio:604/457;">
-          <figcaption>Paris, le Vert-Galant.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/4-Venise-ND-de-la-Salute-6a44d60db1993.jpg" width="2059" height="1417" alt="Venise, Notre-Dame de la Salute" loading="lazy" style="aspect-ratio:2059/1417;">
-          <figcaption>Venise, Notre-Dame de la Salute.</figcaption>
-        </figure>
-      </div>
-
-      <div class="reading">
-        <p>La dynamique créée par Monsieur Gourmelen se poursuit avec la nouvelle équipe municipale et, au fil des années, la collection s'enrichit&nbsp;: elle compte aujourd'hui 1&nbsp;307 numéros à l'inventaire.<a href="#note-musee-1" class="note-ref" id="ref-musee-1" data-note="note-musee-1">1</a> Ces acquisitions ont été réalisées grâce à l'association de Sauvegarde du château de Grouchy, via un fonds de mécénat.</p>
-        <p>Un tournant est opéré en 2015 lorsqu'un partenariat est mis en place entre la Ville et le Département du Val-d'Oise, au travers de la Mission musées de la Direction de la Culture. Durant plus de dix ans, un extraordinaire travail en commun a permis de mener à bien la gestion scientifique de la collection&nbsp;: inventaire rétrospectif, numérisation des dessins, roulement des collections fragiles (dessins, aquarelles) et des grands formats, prises de vues, rédaction de textes et de cartels.</p>
-        <p>La politique d'acquisitions est relancée&nbsp;; elle permet l'entrée de plusieurs aquarelles, mais aussi d'œuvres majeures&nbsp;: le premier album de lithographie de l'artiste, <i>Cours de dessin d'après les Maîtres</i>&nbsp;; deux albums de lithographies d'après François Boucher&nbsp;; neuf planches d'essai pour des lithographies d'après Pissarro et Monet&nbsp;; le fonds d'atelier de l'artiste (dessins, œuvres de jeunesse…). Une mise en dépôt d'une collection privée, en 2022, compte quarante-quatre titres.</p>
-      </div>
-
-      <div class="gallery">
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/6-Cours-de-dessin-d-apres-les-Maitres-6a44d629d73b6.png" width="415" height="598" alt="Album, Cours de dessin d'après les Maîtres" loading="lazy" style="aspect-ratio:415/598;">
-          <figcaption><i>Cours de dessin d'après les Maîtres.</i></figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/7-Femme-aux-3-crayons-d-ap-Boucher-rognee-6a44d6b407cc5.png" width="461" height="608" alt="Femme aux trois crayons d'après Boucher" loading="lazy" style="aspect-ratio:461/608;">
-          <figcaption>Femme aux trois crayons, d'après Boucher.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/8-Etude-d-arbres-6a44d6e5f1c80.jpg" width="527" height="796" alt="Étude d'arbres" loading="lazy" style="aspect-ratio:527/796;">
-          <figcaption>Étude d'arbres. Fonds d'atelier.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/11-Jockeys-d-apres-Degas-6a44d73e09d59.jpg" width="4174" height="3628" alt="Jockeys d'après Degas" loading="lazy" style="aspect-ratio:4174/3628;">
-          <figcaption>Jockeys, d'après Degas.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/12-BRUMES-sur-Rouen-6a44d7577f385.png" width="1185" height="884" alt="Brumes sur Rouen" loading="lazy" style="aspect-ratio:1185/884;">
-          <figcaption>Brumes sur Rouen.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/13-Bouquet-de-roses-6a44d76c7bef7.jpg" width="2898" height="3642" alt="Bouquet de roses" loading="lazy" style="aspect-ratio:2898/3642;">
-          <figcaption>Bouquet de roses.</figcaption>
-        </figure>
-      </div>
-
-      <div class="reading">
-        <p>Une salle dédiée à «&nbsp;Osny vu par les peintres&nbsp;» a été créée&nbsp;; elle représente le cœur de la collection, auquel les Osnyssois sont attachés.</p>
-      </div>
-
-      <div class="gallery">
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/14-Osny-vu-par-les-peintres-1-compressed-6a44d7d67b36c.jpg" width="5888" height="3929" alt="Salle Osny vu par les peintres" loading="lazy" style="aspect-ratio:5888/3929;">
-          <figcaption>La salle «&nbsp;Osny vu par les peintres&nbsp;».</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/15-Osny-vu-par-les-peintress-2-6a44e67117370.png" width="295" height="250" alt="Salle Osny vu par les peintres, seconde vue" loading="lazy" style="aspect-ratio:295/250;">
-          <figcaption>La salle «&nbsp;Osny vu par les peintres&nbsp;», autre vue.</figcaption>
-        </figure>
-      </div>
-
-      <div class="reading">
-        <p>La valorisation du musée a été réalisée via la création de quinze expositions temporaires, sous le commissariat de l'auteure du présent catalogue raisonné. Elles ont permis la création d'un réseau de fidèles prêteurs.<a href="#note-musee-2" class="note-ref" id="ref-musee-2" data-note="note-musee-2">2</a> Elles sont souvent accompagnées d'un <i>Petit Journal</i> et/ou de conférences. À partir de 2021, la publication de posts Facebook mensuels (une œuvre largement commentée) est mise en place.</p>
-      </div>
-
-      <figure class="is-portrait">
-        <img src="https://www.mareetmartin.com/uploads/ckeditor/image/14-EXPO-DANS-LINTIMITE-DE-THORNLEY-page-0001compressed-6a44d8bb84336.jpg" width="1754" height="2481" alt="Affiche de l'exposition Dans l'intimité de William Thornley" loading="lazy" style="aspect-ratio:1754/2481;">
-        <figcaption>Affiche de l'exposition «&nbsp;Dans l'intimité de William Thornley&nbsp;».</figcaption>
-      </figure>
-
-      <div class="reading">
-        <p>Le musée s'est également ouvert à l'extérieur, au travers d'un partenariat avec la Ville de Pontoise (prêts et dépôts réciproques), avec l'association des Amis d'Alfredo Müller — généreuse donatrice de cinq œuvres — et l'Association des Amis de Grouchy.</p>
-      </div>
-
-      <div class="gallery">
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/15-Portrait-6a44d8d2a7bd8.jpg" width="600" height="763" alt="Portrait de Thornley par Sabattini" loading="lazy" style="aspect-ratio:600/763;">
-          <figcaption>Portrait de Thornley par Sabattini.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://www.mareetmartin.com/uploads/ckeditor/image/16-AFFICHE-EXPOSITION-ALFREDO-MULLER-page-0001-6a44d8f2d5aff.jpg" width="1241" height="1755" alt="Affiche des 150 ans d'Alfredo Müller" loading="lazy" style="aspect-ratio:1241/1755;">
-          <figcaption>Affiche «&nbsp;150 ans d'Alfredo Müller&nbsp;».</figcaption>
-        </figure>
-      </div>
-
-      <figure class="is-portrait">
-        <img src="https://www.mareetmartin.com/uploads/ckeditor/image/17-A-Muller-L-Angeluscompressed-6a44d9518c684.jpg" width="3340" height="4175" alt="Alfredo Müller, L'Angelus" loading="lazy" style="aspect-ratio:3340/4175;">
-        <figcaption>Alfredo Müller, <i>L'Angelus</i>.</figcaption>
-      </figure>
-
-      <div class="reading">
-        <p>Désormais ouvert en semaine et le week-end, grâce à l'effort consenti par la collectivité et l'Association des Amis de Grouchy, le musée a trouvé son public, qui vient parfois d'assez loin pour (re)découvrir ce «&nbsp;petit maître&nbsp;». On apprécie la dimension modeste du musée, qui permet une découverte plus intime et conviviale des œuvres, loin des grandes expositions parisiennes. Le musée constitue ainsi une sorte de pause, qui débute ou clôture une promenade dans le superbe parc de Grouchy, que Thornley avait peint en son temps.</p>
-      </div>
-
-      <figure class="is-landscape is-wide">
-        <img src="https://www.mareetmartin.com/uploads/ckeditor/image/18-Thornley-Chateau-Osny-recadree-2-6a44d969305ef.jpg" width="2457" height="1843" alt="Le château de Grouchy vu depuis le temple de Vénus" loading="lazy" style="aspect-ratio:2457/1843;">
-        <figcaption>Le château de Grouchy vu depuis le temple de Vénus, par William Thornley.</figcaption>
-      </figure>
-    </section>
-
     <!-- ===================== NOTES ===================== -->
     <section class="chapter" id="notes" aria-labelledby="notes-title">
       <div class="chapter__head reading">
@@ -512,37 +367,12 @@
         <h2 class="chapter__title" id="notes-title">Notes</h2>
       </div>
       <div class="reading">
-        <h3 style="font-family:var(--font-body);font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-secondary);margin-bottom:1.2rem;">Parcours artistique</h3>
         <ol class="notes-list">
           <li id="note-parcours-1"><span>1.</span> <i>L'Éclair</i>, 16 juin 1899. <a href="#ref-parcours-1" class="note-back" aria-label="Retour au texte">↩</a></li>
           <li id="note-parcours-2"><span>2.</span> <i>L'Éclair</i>, 16 juin 1899. <a href="#ref-parcours-2" class="note-back" aria-label="Retour au texte">↩</a></li>
           <li id="note-parcours-3"><span>3.</span> Photographie dédicacée, 1910, collection du Musée William Thornley. <a href="#ref-parcours-3" class="note-back" aria-label="Retour au texte">↩</a></li>
           <li id="note-parcours-4"><span>4.</span> Geneviève Roche-Bernard, «&nbsp;William Thornley, un artiste encore méconnu&nbsp;», <i>Nous c'est Pontoise, le mag</i>, n°&nbsp;8, septembre 2025, p.&nbsp;15. <a href="#ref-parcours-4" class="note-back" aria-label="Retour au texte">↩</a></li>
         </ol>
-
-        <h3 style="font-family:var(--font-body);font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-secondary);margin:2.5rem 0 1.2rem;">Le musée William Thornley</h3>
-        <ol class="notes-list">
-          <li id="note-musee-1"><span>1.</span> Le principe d'individualiser les planches de lithographies a été retenu pour réaliser l'inventaire rétrospectif en 2021. <a href="#ref-musee-1" class="note-back" aria-label="Retour au texte">↩</a></li>
-          <li id="note-musee-2"><span>2.</span> Expositions temporaires&nbsp;: <i>Festival ImpressiOSNYste</i> (2015)&nbsp;; <i>William Thornley et les Impressionnistes</i> (2016)&nbsp;; <i>Feuilles fragiles de William Thornley</i>, volets 1 à 3 (2017-2018)&nbsp;; <i>Lithographies d'après François Boucher</i> (2019)&nbsp;; <i>William Thornley et l'exercice de la lithographie</i>, volets 1 et 2 (2020-2021)&nbsp;; <i>Osny redécouvert</i> (2021)&nbsp;; <i>William Thornley et les arbres</i>, <i>Maître(s) et Élève(s)</i> (2022)&nbsp;; <i>William Thornley dans le Midi</i>, <i>Passion collection</i> (2023)&nbsp;; <i>Voyage en France avec William</i>, <i>30 ans après… La première rétrospective</i> (2024)&nbsp;; <i>Dans l'intimité de William Thornley</i> (2025)&nbsp;; <i>Alexandre-René Véron, un paysagiste à redécouvrir</i> (2026). <a href="#ref-musee-2" class="note-back" aria-label="Retour au texte">↩</a></li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ===================== BIBLIOGRAPHIE ===================== -->
-    <section class="chapter" id="bibliographie" aria-labelledby="bibliographie-title">
-      <div class="chapter__head reading">
-        <p class="chapter__eyebrow">Sources</p>
-        <h2 class="chapter__title" id="bibliographie-title">Bibliographie</h2>
-      </div>
-      <div class="reading">
-        <ol class="notes-list">
-          <li><span>—</span> Geneviève Roche-Bernard, «&nbsp;William Thornley, un artiste encore méconnu&nbsp;», <i>Nous c'est Pontoise, le mag</i>, n°&nbsp;8, septembre 2025.</li>
-          <li><span>—</span> Catalogue de la rétrospective William Thornley, château de Grouchy, Osny, 1994.</li>
-          <li><span>—</span> Publication du département du Val-d'Oise consacrée à William Thornley, 2018.</li>
-          <li><span>—</span> «&nbsp;[Exposition du peintre Thornley]&nbsp;», <i>L'Éclair</i>, 16 juin 1899.</li>
-          <li><span>—</span> Monographie de l'artiste, en préparation.</li>
-        </ol>
-        <p style="margin-top:2rem;font-size:0.85rem;color:var(--c-secondary);font-style:italic;">Cette bibliographie provisoire recense les sources citées dans la présente introduction. Elle sera complétée dans la monographie en préparation.</p>
       </div>
     </section>
 
