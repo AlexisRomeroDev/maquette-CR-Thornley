@@ -257,10 +257,8 @@ strong { font-weight: 600; }
 .hero--cover .hero__lead { color: rgba(244,239,232,0.88); }
 .hero--cover .hero__rule { background: rgba(244,239,232,0.85); }
 
-@media (min-width: 1100px) {
-  /* décale le contenu centré pour tenir compte du sommaire fixe */
-  .hero--cover { padding-left: calc(var(--w-toc) + 1.5rem); }
-}
+/* Sur l'accueil, le sommaire est masqué au repos : le hero est plein cadre,
+   son texte est donc centré sur toute la largeur du viewport (pas de décalage). */
 
 /* 6. Sections ----------------------------------------------------------- */
 /* Ouverture de chapitre : filet, titre, filet */
