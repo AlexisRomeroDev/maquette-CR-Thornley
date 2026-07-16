@@ -20,6 +20,13 @@
   <!-- Menu (identique sur toutes les pages) -->
   <nav class="toc" id="toc" aria-label="Menu principal">
     <p class="toc__title">Sommaire</p>
+    <!-- Recherche : masquée au repos, révélée par le JS (sans lui elle ne peut
+         rien faire). Le CSS tient l'état au repos, le script ne fait que le lever. -->
+    <div class="toc__search" hidden>
+      <input type="search" id="toc-search" class="toc__search-input"
+             placeholder="Rechercher une œuvre…" autocomplete="off"
+             aria-label="Rechercher dans le catalogue raisonné">
+    </div>
     <ul class="toc__list">
       <li><a href="home.html">Présentation</a></li>
       <li>
@@ -397,6 +404,7 @@
     <p class="lightbox__caption"></p>
   </div>
 
+  <script src="search-data.demo.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -35,6 +35,7 @@ Content was split from one page into several; every page shares the same `<head>
   - `acknowledgements.html` — *Remerciements* (eyebrow "Appareil")
   - `credits.html` — *Crédits photographiques* (eyebrow "Iconographie")
 - `style.css`, `script.js` — shared by all pages.
+- `search-data.demo.js` — **sample data only**, exposed as `window.CR_SEARCH_DATA`. Titles/dates/images come from the site's real captions, but **catalogue numbers, techniques and dimensions are invented** to exercise the layout — they carry no authority, must never be cited, and the whole file is to be replaced by the in-house CMS's output. A global (not `fetch`-ed JSON) so the site still works when opened via `file://`, where fetch is CORS-blocked.
 
 Each page has exactly one `h1`; keep the heading outline coherent when editing.
 
@@ -50,7 +51,7 @@ Twelve entries in **three groups**, separated by a hairline rule carried by `li.
 
 Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **Contact is still a placeholder `href="#"`** — the only one left; about.html also contains image placeholders (`.placeholder-media`, "Image à insérer") awaiting real assets.
 
-## script.js (one IIFE, 5 parts)
+## script.js (one IIFE, 6 parts)
 
 1. **Collapsible menu at every size**, one `.toc-toggle` button but two regimes, keyed on `matchMedia('(min-width: 1100px)')`:
    - *desktop* — column **open by default**; the toggle collapses it via `toc-collapsed` on `<html>`, and the state is **persisted in `localStorage`** (key `toc-collapsed`). Because the 11 pages are separate files, an inline script in every `<head>` re-applies the class **before first paint** — without it the menu would visibly jump on each navigation. Clicking a link does *not* collapse it.
@@ -64,9 +65,13 @@ Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup 
 
    ⚠️ `.toc`'s `transform` is shared by both features, composed from two custom properties — `translateX(var(--toc-x))` (collapse) `translateY(var(--toc-reveal, 0px))` (hero). Never set `transform` on `.toc` from a new rule: it would silently clobber one of the two. Drive `--toc-x` / `--toc-reveal` instead.
 
+6. **Search**: field at the top of the toc, hand-written filter over `window.CR_SEARCH_DATA` (no library — the spec bans them, and a linear filter is ample: 60 records here, still milliseconds at 2000). Results replace the page content in the reading column (`body.is-searching`), because a work's card — thumbnail + signalétique — doesn't fit the 320px toc. `/` focuses the field (unfolding the toc if needed), Escape clears (it sits between the lightbox and the notes in the Escape chain), Enter closes the mobile panel so the results behind it become visible.
+
+   **French normalisation is the whole job, not the matching.** The `œ` ligature has *no* Unicode decomposition — neither NFD nor NFKD touches it — so `norm()` maps `œ→oe` / `æ→ae` **before** stripping diacritics; without it "oeuvres" would never find "œuvres", the catalogue's flagship word. Non-breaking spaces (U+00A0/U+202F, mandated by the French typography rules) are folded to plain spaces, and apostrophes act as word boundaries so "aquarelle" finds "l'aquarelle". Any new data field must go through `mots()`.
+
 ## CSS conventions
 
-- Sections in order: Variables, Typography, Layout, Navigation, Hero, Sections, Figures, Gallery, Notes, Lightbox, Responsive.
+- Sections in order: Variables, Typography, Layout, Navigation, Hero, Sections, Figures, Gallery, Recherche, Notes, Lightbox, Responsive.
 - Key variables: `--w-toc` (menu column width, currently 320px), `--w-page` (1100px), `--w-read` (800px reading column), `--space`, plus the palette (`--c-bg #faf8f5`, `--c-text #222`, `--c-secondary #666` / `--c-secondary-ink #4a4a4a` for toc links, `--c-rule #ddd8d2`, sage `--c-accent #7d8a6a` / `--c-accent-ink`). The `-ink` suffix means "darker variant of".
 - **Desktop widths**: `.page` adds the toc gutter *on top of* `--w-page` rather than having it subtracted (`box-sizing: border-box`), via a local `--gutter-left`. That single variable drives both `padding-left` and `max-width`, so collapsing the toc (`.toc-collapsed .page { --gutter-left: 3vw }`) re-centers the text. Nothing on the page exceeds `--w-read` any more, so `--w-page` now only sizes/centres that band — a `--w-band` rename would be more honest.
 - Reusable components: `.hero` / `.hero--cover`, `.chapter` + `.chapter__head/__eyebrow/__title`, `.period` (dated chapter opener), `figure.is-portrait/.is-landscape` (toutes deux dans la colonne de lecture — rien ne déborde), `.gallery`, `.pullquote` (press citation), `.notes-list` + `.note-ref`, `.lightbox`, `.toc` + `.toc__sublist`.

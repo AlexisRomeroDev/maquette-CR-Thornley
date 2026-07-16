@@ -1,14 +1,21 @@
 /* =========================================================================
    Catalogue raisonné numérique — interactions (JavaScript natif)
    Aucune bibliothèque externe.
-     1. Sommaire repliable (mobile / tablette)
+     1. Sommaire escamotable (desktop et mobile)
      2. Chapitre actif au défilement
      3. Notes interactives (popover, le lecteur ne quitte pas le texte)
      4. Visionneuse d'images (clic, ESC, clic hors image, clavier)
      5. Apparition du menu sous le hero (accueil, desktop)
+     6. Recherche (filtre à la frappe, données d'exemple)
    ========================================================================= */
 (function () {
   'use strict';
+
+  /* Passerelles entre parties (déclarées ici, affectées plus bas) :
+       majReveal        — partie 5, rappelée par la recherche qui masque le hero
+       rechercheActive  \_ partie 6, consultées par la chaîne Échap définie
+       effacerRecherche /  avant elles. */
+  var majReveal = null, rechercheActive = null, effacerRecherche = null;
 
   /* 1. Sommaire escamotable ---------------------------------------------- */
   /* Deux régimes, un seul bouton :
@@ -227,10 +234,14 @@
     });
   }
 
-  // Échap ferme la note ouverte et le sommaire (hors visionneuse)
+  // Échap, par ordre de priorité : visionneuse (gérée plus haut) > recherche >
+  // note ouverte / sommaire. Les deux fonctions viennent de la partie 6 ; leur
+  // `var` est remontée en tête de l'IIFE, et ce gestionnaire ne s'exécute qu'au
+  // clavier, donc bien après leur affectation.
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') { return; }
     if (lb && lb.classList.contains('is-open')) { return; }
+    if (rechercheActive && rechercheActive()) { effacerRecherche(); return; }
     removePopover();
     if (toc.classList.contains('is-open')) { closeToc(); }
   });
@@ -265,5 +276,140 @@
     window.addEventListener('resize', updateReveal);
     if (desktop.addEventListener) { desktop.addEventListener('change', updateReveal); }
     updateReveal();                     // état initial
+    majReveal = updateReveal;           // la recherche masque le hero : à resynchroniser
+  }
+
+  /* 6. Recherche --------------------------------------------------------- */
+  /* Filtre à la frappe sur des données d'exemple (search-data.demo.js), que le
+     CMS maison remplacera. Écrit à la main : le cahier des charges proscrit
+     toute bibliothèque externe, et à cette échelle un filtre linéaire suffit
+     largement (60 fiches ici, quelques millisecondes même à 2000). */
+  var champ = document.getElementById('toc-search');
+  var donnees = window.CR_SEARCH_DATA;
+  var pageEl = document.querySelector('main.page');
+
+  if (champ && donnees && pageEl) {
+    champ.parentNode.hidden = false;    // la recherche exige le JS : révélée ici
+
+    /* Normalisation. Piège : la ligature « œ » n'a AUCUNE décomposition Unicode
+       — ni NFD ni NFKD ne la touchent, contrairement à « é ». Sans le
+       remplacement explicite ci-dessous, « oeuvres » ne trouverait jamais
+       « œuvres », le mot-drapeau du catalogue. Idem pour « æ ». */
+    function norm(s) {
+      return String(s)
+        .replace(/œ/g, 'oe').replace(/Œ/g, 'Oe')
+        .replace(/æ/g, 'ae').replace(/Æ/g, 'Ae')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')   // é -> e, î -> i
+        .replace(/[\u00a0\u202f]/g, ' ')                    // espaces insécables
+        .toLowerCase();
+    }
+    /* Découpe en mots. L'apostrophe — droite ou courbe — est une frontière :
+       « aquarelle » doit trouver « l'aquarelle ». */
+    function mots(s) { return norm(s).split(/[^a-z0-9]+/).filter(Boolean); }
+
+    donnees.forEach(function (r) {
+      r._mots = mots([r.num, r.titre, r.date, r.technique, r.dim].filter(Boolean).join(' '));
+    });
+
+    // Tous les mots saisis doivent matcher (ET), chacun en début de mot.
+    function chercher(q) {
+      var t = mots(q);
+      if (!t.length) { return null; }
+      return donnees.filter(function (r) {
+        return t.every(function (mot) {
+          return r._mots.some(function (m) { return m.indexOf(mot) === 0; });
+        });
+      });
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    }
+
+    var section = document.createElement('section');
+    section.className = 'search-results';
+    section.setAttribute('aria-label', 'Résultats de recherche');
+    section.hidden = true;
+    var compte = document.createElement('p');
+    compte.className = 'search-results__count reading';
+    compte.setAttribute('role', 'status');
+    var corps = document.createElement('div');
+    corps.className = 'reading';
+    section.appendChild(compte);
+    section.appendChild(corps);
+    pageEl.insertBefore(section, pageEl.firstChild);
+
+    function ligne(r) {
+      if (r.t === 'page') {
+        return '<li class="result result--page"><a class="result__link" href="' + esc(r.url) + '">' +
+               '<span class="result__body"><span class="result__title">' + esc(r.titre) +
+               '</span></span></a></li>';
+      }
+      var meta = [r.date, r.technique, r.dim].filter(Boolean).join(' · ');
+      return '<li class="result"><a class="result__link" href="' + esc(r.url) + '">' +
+             '<span class="result__media"><img loading="lazy" alt="" src="' + esc(r.img) + '"></span>' +
+             '<span class="result__body">' +
+             '<span class="result__num">' + esc(r.num) + '</span>' +
+             '<span class="result__title">' + esc(r.titre) + '</span>' +
+             '<span class="result__meta">' + esc(meta) + '</span>' +
+             '</span></a></li>';
+    }
+
+    function afficher(res, q) {
+      var oeuvres = res.filter(function (r) { return r.t === 'oeuvre'; });
+      var pages   = res.filter(function (r) { return r.t === 'page'; });
+      var html = '';
+      if (oeuvres.length) {
+        html += '<p class="results__group">Œuvres</p><ol class="results">' +
+                oeuvres.map(ligne).join('') + '</ol>';
+      }
+      if (pages.length) {
+        html += '<p class="results__group">Pages</p><ol class="results">' +
+                pages.map(ligne).join('') + '</ol>';
+      }
+      if (!res.length) {
+        // Guillemets français, espaces insécables comprises.
+        html = '<p class="search-empty">Aucun résultat pour <em>\u00ab\u00a0' + esc(q) +
+               '\u00a0\u00bb</em>.</p>';
+      }
+      compte.textContent = res.length
+        ? res.length + (res.length > 1 ? ' résultats' : ' résultat')
+        : '';
+      corps.innerHTML = html;
+    }
+
+    function appliquer() {
+      var q = champ.value.trim();
+      var res = chercher(q);
+      var actif = res !== null;
+      if (actif) { afficher(res, q); }
+      section.hidden = !actif;
+      document.body.classList.toggle('is-searching', actif);
+      // L'accueil masque son hero pendant la recherche : le décalage du menu,
+      // calculé sur la position du hero, doit être recalculé.
+      if (majReveal) { majReveal(); }
+    }
+
+    champ.addEventListener('input', appliquer);
+    rechercheActive = function () { return document.body.classList.contains('is-searching'); };
+    effacerRecherche = function () { champ.value = ''; appliquer(); champ.blur(); };
+
+    // Sur mobile, les résultats sont derrière le panneau : Entrée le referme.
+    champ.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !desktopMq.matches) { e.preventDefault(); closeToc(); }
+    });
+
+    // « / » place le curseur dans le champ, en dépliant le sommaire au besoin.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) { return; }
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) { return; }
+      e.preventDefault();
+      if (desktopMq.matches) { if (isCollapsed()) { setCollapsed(false); } }
+      else if (!toc.classList.contains('is-open')) { openToc(); }
+      champ.focus();
+    });
   }
 })();

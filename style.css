@@ -10,9 +10,10 @@
      6. Sections
      7. Figures
      8. Gallery
-     9. Notes
-    10. Lightbox
-    11. Responsive
+     9. Recherche
+    10. Notes
+    11. Lightbox
+    12. Responsive
    ========================================================================= */
 
 /* 1. Variables ---------------------------------------------------------- */
@@ -136,6 +137,27 @@ strong { font-weight: 600; }
   color: var(--c-secondary);
   margin-bottom: 1.5rem;
 }
+/* Champ de recherche, en tête du sommaire */
+.toc__search { margin-bottom: 1.6rem; }
+.toc__search-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.toc__search-input::placeholder { color: var(--c-secondary); opacity: 1; }
+.toc__search-input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+}
+/* Croix native de vidage (WebKit) : conservée, elle rend la page d'un clic */
+.toc__search-input::-webkit-search-cancel-button { cursor: pointer; }
+
 .toc__list { list-style: none; margin: 0; padding: 0; }
 .toc__list li { margin: 0 0 0.9rem; }
 /* Ouverture d'un groupe (les index, puis l'appareil) : un filet porté par le
@@ -449,7 +471,100 @@ figure.is-portrait { max-width: 30rem; }
   margin-bottom: 0.25rem;
 }
 
-/* 9. Notes -------------------------------------------------------------- */
+/* 9. Recherche ---------------------------------------------------------- */
+/* Les résultats prennent la place du contenu, dans la colonne de lecture :
+   une fiche œuvre (vignette + signalétique) ne tient pas dans les 320px du
+   sommaire. Le contenu de la page n'est pas détruit, seulement masqué. */
+body.is-searching .page > *:not(.search-results) { display: none; }
+/* Le hero de l'accueil vit hors de `main.page` : sans cette règle, il garderait
+   ses 100vh et repousserait les résultats sous le pli — la recherche semblerait
+   ne rien faire. Le JS resynchronise ensuite le décalage du menu, qui est
+   calculé d'après la position du hero. */
+body.is-searching .hero { display: none; }
+.search-results { padding-block: var(--space); }
+
+.search-results__count {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--c-secondary);
+  margin-bottom: 2.5rem;
+}
+
+/* Intitulé de groupe : même traitement que les eyebrows de chapitre */
+.results__group {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin: 2.5rem 0 0;
+}
+.results__group:first-child { margin-top: 0; }
+
+.results { list-style: none; margin: 0; padding: 0; }
+.result + .result { border-top: 1px solid var(--c-rule); }
+.result__link {
+  display: grid;
+  grid-template-columns: 96px 1fr;   /* vignette + signalétique */
+  gap: 1.4rem;
+  align-items: center;
+  padding: 1.1rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+/* Vignette : `contain` et non `cover` — une œuvre ne se recadre pas, même en
+   miniature. Le cadre garde une hauteur fixe pour que la liste reste réglée. */
+.result__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+}
+.result__media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.result__num {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.15rem;
+}
+.result__title {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--c-text);
+  transition: color 0.2s;
+}
+.result__link:hover .result__title { color: var(--c-accent-ink); }
+.result__meta {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-secondary);
+  margin-top: 0.2rem;
+}
+/* Résultat « page » : pas de vignette, la colonne de gauche disparaît */
+.result--page .result__link { grid-template-columns: 1fr; }
+
+.search-empty { color: var(--c-secondary); }
+.search-empty em { font-style: italic; color: var(--c-text); }
+
+@media (max-width: 640px) {
+  .result__link { grid-template-columns: 68px 1fr; gap: 1rem; }
+  .result__media { height: 56px; }
+  .result__title { font-size: 1.1rem; }
+}
+
+/* 10. Notes -------------------------------------------------------------- */
 .note-ref {
   font-size: 0.72em;
   vertical-align: super;
@@ -495,7 +610,7 @@ figure.is-portrait { max-width: 30rem; }
   margin-bottom: 0.4rem;
 }
 
-/* 10. Lightbox (visionneuse maison) ------------------------------------- */
+/* 11. Lightbox (visionneuse maison) ------------------------------------- */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -541,7 +656,7 @@ figure.is-portrait { max-width: 30rem; }
 .lightbox__prev { left: 1vw; top: 50%; transform: translateY(-50%); }
 .lightbox__next { right: 1vw; top: 50%; transform: translateY(-50%); }
 
-/* 11. Responsive -------------------------------------------------------- */
+/* 12. Responsive -------------------------------------------------------- */
 /* Desktop : la colonne de lecture est décalée pour laisser vivre le sommaire.
    La gouttière du menu est ajoutée à --w-page au lieu d'être prélevée dessus
    (box-sizing: border-box) : --w-page reste la largeur du contenu, et la
