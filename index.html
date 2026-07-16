@@ -9,11 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Sommaire replié : appliqué avant l'affichage pour éviter tout saut. -->
+  <script>try{if(localStorage.getItem('toc-collapsed')==='1'){document.documentElement.classList.add('toc-collapsed');}}catch(e){}</script>
 </head>
 <body>
 
-  <!-- Bouton de repli du sommaire (tablette / mobile) -->
-  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc" aria-label="Ouvrir le sommaire">☰</button>
+  <!-- Bouton de bascule du sommaire (toutes tailles) -->
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc" aria-label="Afficher ou masquer le sommaire">☰</button>
 
   <!-- Menu (identique sur toutes les pages) -->
   <nav class="toc" id="toc" aria-label="Menu principal">
@@ -67,7 +69,7 @@
         <p>Du côté de la pratique de l'aquarelle, le choix des teintes est sûr, les camaïeux sont maîtrisés et l'assemblage des couleurs est soigné.</p>
       </div>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/3-Cavaliers-dans-la-tempete-6a4cf39fb6af1.jpg" width="2000" height="1244" alt="Aquarelle représentant des cavaliers dans la tempête" loading="lazy" style="aspect-ratio:2000/1244;">
         <figcaption>Cavaliers dans la tempête, aquarelle.</figcaption>
       </figure>
@@ -171,7 +173,7 @@
         <p>Dans le même temps, l'artiste s'initie à la lithographie avec l'édition de son premier album, <i>Dessin d'après les Maîtres</i> (1879), et des réalisations d'après Troyon, Vélasquez et Prud'hon, très vraisemblablement en compagnie d'Achille Sirouy.</p>
       </div>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/8-Rue-a-VItre-6a44d38728ed9.jpg" width="4153" height="2787" alt="Lithographie d'une rue à Vitré" loading="lazy" style="aspect-ratio:4153/2787;">
         <figcaption>Rue à Vitré.</figcaption>
       </figure>
@@ -229,7 +231,7 @@
         <figcaption>L'île de la Cité.</figcaption>
       </figure>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/6ter-Village-aux-environs-de-Reims-6a44d2d6a1fbc.jpg" width="5779" height="3312" alt="Village aux environs de Reims" loading="lazy" style="aspect-ratio:5779/3312;">
         <figcaption>Village aux environs de Reims.</figcaption>
       </figure>
@@ -302,12 +304,12 @@
         <p>La série d'aquarelles réalisées à Vitré (Ille-et-Vilaine) et présentées à la Galerie Georges Petit en novembre 1907 marque le retour de Thornley sur la scène artistique. Ses expositions font désormais la part belle à Osny et à Pontoise toute proche — comme le montrent les catalogues de 1907 puis 1918 chez Georges Petit —, mais aussi et toujours à la Côte d'Azur, à laquelle l'artiste est profondément attaché. On voit également apparaître des vues d'Alsace, des lacs italiens et une importante série sur Venise, car Thornley, infatigable et toujours en quête de nouveaux sujets, poursuit ses voyages.</p>
       </div>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/9-Selestat-6a44d39b97bd9.jpg" width="4317" height="3067" alt="Aquarelle de Sélestat" loading="lazy" style="aspect-ratio:4317/3067;">
         <figcaption>Sélestat, aquarelle.</figcaption>
       </figure>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/9-bis-La-Salute-Venise-6a44d3ae565bc.jpg" width="5314" height="3780" alt="La Salute, Venise" loading="lazy" style="aspect-ratio:5314/3780;">
         <figcaption>La Salute, Venise.</figcaption>
       </figure>
@@ -340,7 +342,7 @@
         <p>Les années 1920 sont marquées, notamment, par une incursion dans l'Orne (Clécy, Rémalard), dans les Pyrénées, et par des déplacements à Caen et à Honfleur.</p>
       </div>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/14-L-Orne-a-Clecy-6a44d4cd2ca00.jpg" width="3795" height="2726" alt="Aquarelle, l'Orne à Clécy" loading="lazy" style="aspect-ratio:3795/2726;">
         <figcaption>L'Orne à Clécy, aquarelle.</figcaption>
       </figure>
@@ -349,7 +351,7 @@
         <p>C'est en 1928 que Thornley fonde la Société des Beaux-Arts d'Antibes, où il exposera jusqu'en 1933. Dans les dernières années, il expose dans un périmètre géographique plus réduit&nbsp;: Enghien ou L'Isle-Adam reçoivent ainsi le maître et son dernier élève, qui lui sert de scénographe.</p>
       </div>
 
-      <figure class="is-landscape is-wide">
+      <figure class="is-landscape">
         <img src="https://www.mareetmartin.com/uploads/ckeditor/image/13-Panorama-de-Pontoisecompressed-6a44d52f28323.jpg" width="3490" height="2914" alt="Panorama de Pontoise" loading="lazy" style="aspect-ratio:3490/2914;">
         <figcaption>Panorama de Pontoise. Fonds JLBM.</figcaption>
       </figure>

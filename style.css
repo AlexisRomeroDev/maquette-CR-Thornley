@@ -20,6 +20,7 @@
   --c-bg:        #faf8f5;
   --c-text:      #222222;
   --c-secondary: #666666;
+  --c-secondary-ink:#4a4a4a;       /* variante foncée : liens du sommaire */
   --c-rule:      #ddd8d2;
   --c-accent:    #7d8a6a;          /* vert sauge discret */
   --c-accent-ink:#5f6a4f;
@@ -90,25 +91,42 @@ strong { font-weight: 600; }
   left: 0;
   width: var(--w-toc);
   height: 100vh;
-  padding: clamp(2rem, 5vh, 4rem) 1.5rem;
+  /* Le bouton de bascule est posé au-dessus du panneau (top: 1rem, 2.75rem de
+     haut) : on dégage la hauteur qu'il occupe pour que « Sommaire » ne passe
+     pas dessous. */
+  padding: 4.75rem 1.5rem clamp(2rem, 5vh, 4rem);
   overflow-y: auto;
   font-family: var(--font-body);
   font-size: 0.82rem;
   line-height: 1.4;
   border-right: 1px solid var(--c-rule);
   background: var(--c-bg);
+  /* Deux déplacements indépendants sur une seule propriété `transform` :
+       --toc-x      escamotage latéral (bascule, desktop et mobile)
+       --toc-reveal descente sous le hero de l'accueil (piloté par le JS)
+     Les composer ici évite qu'une règle n'écrase l'autre. */
+  --toc-x: 0;
+  transform: translateX(var(--toc-x)) translateY(var(--toc-reveal, 0px));
+  transition: transform 0.28s ease;
 }
 /* Page d'accueil (desktop) : le menu est masqué sous le hero plein écran,
    puis remonte au rythme du défilement — comme s'il était collé sous le hero —
-   avant de se fixer en haut. Le décalage --toc-reveal est piloté par le JS. */
+   avant de se fixer en haut. Le JS surcharge --toc-reveal en style inline ;
+   la valeur ci-dessous est celle d'avant son exécution. */
 @media (min-width: 1100px) {
   body.is-home .toc {
-    transform: translateY(var(--toc-reveal, 100vh));
+    --toc-reveal: 100vh;
     /* Sous le hero (z-index < .hero--cover) : masque le débordement d'une
        frame à la jointure, le temps que le translateY rattrape le scroll. */
     z-index: 1;
     will-change: transform;   /* couche dédiée : glissement plus fluide */
+    /* Tant que le hero couvre le menu, --toc-reveal suit le défilement image
+       par image : toute transition ferait traîner le menu derrière le hero.
+       C'est l'état au repos — le JS ne fait que lever la restriction plus bas,
+       sinon la page s'afficherait dans le mauvais état avant son exécution. */
+    transition: none;
   }
+  body.is-home.is-hero-passed .toc { transition: transform 0.28s ease; }
 }
 .toc__title {
   font-family: var(--font-title);
@@ -121,7 +139,7 @@ strong { font-weight: 600; }
 .toc__list { list-style: none; margin: 0; padding: 0; }
 .toc__list li { margin: 0 0 0.9rem; }
 .toc__list a {
-  color: var(--c-secondary);
+  color: var(--c-secondary-ink);
   text-decoration: none;
   display: block;
   padding-left: 0.9rem;
@@ -161,7 +179,7 @@ strong { font-weight: 600; }
 .toc__sublist a {
   padding-left: 1.7rem;
   font-size: 0.95em;
-  color: var(--c-secondary);
+  color: var(--c-secondary-ink);
 }
 .toc__sublist a::before {
   content: "—";
@@ -169,9 +187,9 @@ strong { font-weight: 600; }
   color: var(--c-rule);
 }
 
-/* Bouton repli (mobile / tablette) */
+/* Bouton de bascule du sommaire (toutes tailles) */
 .toc-toggle {
-  display: none;
+  display: flex;
   position: fixed;
   top: 1rem;
   left: 1rem;
@@ -186,6 +204,16 @@ strong { font-weight: 600; }
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.28s ease;
+}
+/* Accueil (desktop) : le hero reste plein cadre, aucun bouton ne flotte dessus.
+   Masqué par défaut plutôt que masqué par le JS : le script s'exécute en fin de
+   <body>, le bouton apparaîtrait donc une fraction de seconde avant de
+   disparaître. Le JS ne fait que le révéler une fois le hero dépassé.
+   Sur mobile le hamburger reste visible : le menu n'a pas d'autre accès. */
+@media (min-width: 1100px) {
+  body.is-home .toc-toggle { opacity: 0; pointer-events: none; }
+  body.is-home.is-hero-passed .toc-toggle { opacity: 1; pointer-events: auto; }
 }
 
 /* 5. Hero --------------------------------------------------------------- */
@@ -200,7 +228,7 @@ strong { font-weight: 600; }
 }
 .hero__kicker {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--c-secondary);
@@ -265,7 +293,7 @@ strong { font-weight: 600; }
 .chapter__head { text-align: center; margin-bottom: 3.5rem; }
 .chapter__eyebrow {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--c-accent-ink);
@@ -364,8 +392,8 @@ figcaption::before {
 
 /* Portrait : image haute, colonne resserrée */
 figure.is-portrait { max-width: 30rem; }
-/* Paysage important : débordement maîtrisé au-delà de la colonne */
-figure.is-landscape.is-wide { max-width: var(--w-page); }
+/* Paysage : aligné sur la colonne de texte (max-width de `figure` ci-dessus),
+   aucun débordement — la règle de base suffit, pas de surcharge. */
 
 /* 8. Gallery ------------------------------------------------------------ */
 .gallery {
@@ -375,7 +403,6 @@ figure.is-landscape.is-wide { max-width: var(--w-page); }
   max-width: var(--w-read);
   margin: 3rem auto;
 }
-.gallery.is-wide { max-width: var(--w-page); }
 .gallery figure { margin: 0; max-width: none; }
 .gallery figcaption::before { content: "Figure " counter(figure); }
 /* Les figures d'une galerie partagent le compteur global du chapitre */
@@ -507,22 +534,35 @@ figure.is-landscape.is-wide { max-width: var(--w-page); }
 .lightbox__next { right: 1vw; top: 50%; transform: translateY(-50%); }
 
 /* 11. Responsive -------------------------------------------------------- */
-/* Desktop : la colonne de lecture est décalée pour laisser vivre le sommaire */
+/* Desktop : la colonne de lecture est décalée pour laisser vivre le sommaire.
+   La gouttière du menu est ajoutée à --w-page au lieu d'être prélevée dessus
+   (box-sizing: border-box) : --w-page reste la largeur du contenu, et la
+   colonne de lecture tient ses 800px quelle que soit la taille de l'écran. */
 @media (min-width: 1100px) {
-  .page { padding-left: calc(var(--w-toc) + 3vw); padding-right: 3vw; }
+  .page {
+    /* Gouttière réservée au sommaire : une seule variable pilote à la fois le
+       retrait et la largeur maximale, pour que le repli recentre le texte. */
+    --gutter-left: calc(var(--w-toc) + 3vw);
+    max-width: calc(var(--w-page) + var(--gutter-left) + 3vw);
+    padding-left: var(--gutter-left);
+    padding-right: 3vw;
+    transition: max-width 0.28s ease, padding-left 0.28s ease;
+  }
+  /* Sommaire escamoté (état mémorisé) : le menu sort par la gauche et la
+     colonne de lecture récupère la gouttière en se recentrant. */
+  .toc-collapsed .toc { --toc-x: -100%; }
+  .toc-collapsed .page { --gutter-left: 3vw; }
 }
 
-/* Tablette & mobile : sommaire repliable */
+/* Tablette & mobile : le sommaire est un panneau en calque, fermé par défaut */
 @media (max-width: 1099px) {
   .toc {
-    transform: translateX(-100%);
-    transition: transform 0.28s ease;
+    --toc-x: -100%;
     z-index: 30;
     box-shadow: 0 0 40px rgba(0,0,0,0.15);
     width: min(280px, 82vw);
   }
-  .toc.is-open { transform: translateX(0); }
-  .toc-toggle { display: flex; }
+  .toc.is-open { --toc-x: 0; }
   body.toc-open { overflow: hidden; }
 }
 

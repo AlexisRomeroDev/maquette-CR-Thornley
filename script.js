@@ -10,31 +10,60 @@
 (function () {
   'use strict';
 
-  /* 1. Sommaire repliable ------------------------------------------------ */
+  /* 1. Sommaire escamotable ---------------------------------------------- */
+  /* Deux régimes, un seul bouton :
+       desktop — colonne ouverte par défaut, repli mémorisé d'une page à l'autre
+                 (7 fichiers HTML distincts, donc rechargement à chaque lien) ;
+       mobile  — panneau en calque, fermé par défaut, refermé après un clic. */
+  var root = document.documentElement;
   var toc = document.getElementById('toc');
   var toggle = document.querySelector('.toc-toggle');
+  var STORE = 'toc-collapsed';
+  var desktopMq = window.matchMedia('(min-width: 1100px)');
+
+  function isCollapsed() { return root.classList.contains('toc-collapsed'); }
+
+  function syncToggle() {
+    var shown = desktopMq.matches ? !isCollapsed() : toc.classList.contains('is-open');
+    toggle.setAttribute('aria-expanded', shown ? 'true' : 'false');
+  }
 
   function closeToc() {
     toc.classList.remove('is-open');
     document.body.classList.remove('toc-open');
-    toggle.setAttribute('aria-expanded', 'false');
+    syncToggle();
   }
   function openToc() {
     toc.classList.add('is-open');
     document.body.classList.add('toc-open');
-    toggle.setAttribute('aria-expanded', 'true');
+    syncToggle();
+  }
+  function setCollapsed(state) {
+    root.classList.toggle('toc-collapsed', state);
+    // Le <head> relit cette valeur avant l'affichage : pas de saut au chargement.
+    try { localStorage.setItem(STORE, state ? '1' : '0'); } catch (e) {}
+    syncToggle();
   }
 
   toggle.addEventListener('click', function () {
-    if (toc.classList.contains('is-open')) { closeToc(); } else { openToc(); }
+    if (desktopMq.matches) { setCollapsed(!isCollapsed()); }
+    else if (toc.classList.contains('is-open')) { closeToc(); }
+    else { openToc(); }
   });
 
   // Sur mobile, refermer le sommaire après un clic sur un lien
   toc.addEventListener('click', function (e) {
-    if (e.target.closest('a') && window.matchMedia('(max-width: 1099px)').matches) {
-      closeToc();
-    }
+    if (e.target.closest('a') && !desktopMq.matches) { closeToc(); }
   });
+
+  // Au passage vers le desktop, l'état du panneau mobile (et son verrou de
+  // défilement) n'a plus cours : on le purge pour éviter une page figée.
+  function onBreakpoint() {
+    if (desktopMq.matches) { closeToc(); }
+    syncToggle();
+  }
+  if (desktopMq.addEventListener) { desktopMq.addEventListener('change', onBreakpoint); }
+  syncToggle();
 
   /* 2. Chapitre actif au défilement -------------------------------------- */
   /* Le menu est identique sur toutes les pages : on ne suit au défilement que
@@ -211,17 +240,21 @@
      du défilement (son haut d'abord) puis se fixe en haut (décalage 0). */
   var cover = document.querySelector('.hero--cover');
   if (cover) {
-    var desktop = window.matchMedia('(min-width: 1100px)');
+    var desktop = desktopMq;
     var pending = false;
 
     var updateReveal = function () {
       pending = false;
       if (!desktop.matches) {           // mobile/tablette : sommaire à bascule
         toc.style.removeProperty('--toc-reveal');
+        document.body.classList.remove('is-hero-passed');
         return;
       }
       var reveal = Math.max(0, cover.getBoundingClientRect().bottom);
       toc.style.setProperty('--toc-reveal', reveal + 'px');
+      // Hero dépassé : le bouton se montre et la transition du menu reprend.
+      // Classe posée seulement à ce moment — le CSS gère seul l'état de repos.
+      document.body.classList.toggle('is-hero-passed', reveal === 0);
     };
 
     var onScroll = function () {

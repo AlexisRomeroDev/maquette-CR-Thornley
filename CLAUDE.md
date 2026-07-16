@@ -35,23 +35,30 @@ Each page has exactly one `h1`; keep the heading outline coherent when editing.
 
 ## Shared menu — edit ALL pages together
 
-`<nav class="toc">` is **duplicated verbatim in all 7 pages** (no templating). Any menu change must be applied identically to every page (sed across files is the usual way). Current order: Présentation → Qui est William Thornley ? (sublist = 3 periods) → Index des œuvres (`.is-feature`, subtly highlighted) → Index des collections → Le musée → Bibliographie → À propos → Contact.
+`<nav class="toc">` is **duplicated verbatim in all 7 pages** (no templating), and so is the `<head>` — including the small inline `toc-collapsed` script that must stay **before first paint**. Any menu or `<head>` change must be applied identically to every page (sed/python across files is the usual way). Current order: Présentation → Qui est William Thornley ? (sublist = 3 periods) → Index des œuvres (`.is-feature`, subtly highlighted) → Index des collections → Le musée → Bibliographie → À propos → Contact.
 
 Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **Contact is still a placeholder `href="#"`** — the only one left; artworks/collections/about also contain image placeholders (`.placeholder-media`, "Image à insérer") awaiting real assets.
 
 ## script.js (one IIFE, 5 parts)
 
-1. **Collapsible menu** on tablet/mobile (hamburger `.toc-toggle`, slide-in panel).
+1. **Collapsible menu at every size**, one `.toc-toggle` button but two regimes, keyed on `matchMedia('(min-width: 1100px)')`:
+   - *desktop* — column **open by default**; the toggle collapses it via `toc-collapsed` on `<html>`, and the state is **persisted in `localStorage`** (key `toc-collapsed`). Because the 7 pages are separate files, an inline script in every `<head>` re-applies the class **before first paint** — without it the menu would visibly jump on each navigation. Clicking a link does *not* collapse it.
+   - *mobile* — overlay panel, **closed by default**, `.toc.is-open` + `body.toc-open` scroll lock, closes after a link click. Switching up to desktop purges this state (a lingering `toc-open` would freeze scrolling).
 2. **Scrollspy** (IntersectionObserver): only observes menu links whose target is on the current page; parses `file#hash`, ignores cross-page links and bare `#` placeholders (a bare `#` must NOT be marked active).
 3. **Footnote popovers**: `.note-ref` → inline popover cloned from the `.notes-list` target, so the reader never leaves the text; falls back to anchor jump without JS.
 4. **Lightbox** (hand-written): guarded by `if (lb && images.length)` so pages without figures/lightbox (home, bibliography, artworks, collections) don't break. Click to open, ESC, click-outside, arrow keys.
-5. **Home hero reveal** (desktop only, `.hero--cover` present): the menu is hidden under the full-screen hero and rises with scroll (JS sets `--toc-reveal` = `hero.getBoundingClientRect().bottom` on the toc; CSS `translateY(var(--toc-reveal))`), then sticks. The toc sits **below** the hero (`z-index:1` vs hero `z-index:2`) to mask a one-frame seam jitter; `will-change:transform` smooths it.
+5. **Home hero reveal** (desktop only, `.hero--cover` present): the menu is hidden under the full-screen hero and rises with scroll (JS sets `--toc-reveal` = `hero.getBoundingClientRect().bottom` on the toc), then sticks. The toc sits **below** the hero (`z-index:1` vs hero `z-index:2`) to mask a one-frame seam jitter; `will-change:transform` smooths it. Once the hero is scrolled past, JS puts `is-hero-passed` on the body: it reveals the toggle (no button floating over the cover before that) **and restores the toc's transition** — while the hero is in front, `--toc-reveal` tracks the scroll frame by frame, so any transition would make the menu lag behind it.
+
+   The class marks the *passed* state, never the resting one, and that direction is deliberate: `script.js` loads at the end of `<body>`, so anything it must **remove** on arrival is painted first and flickers. CSS owns the at-rest look (`body.is-home` desktop = toggle hidden, no transition); JS only ever lifts it. Same reasoning as the `<head>` script for `toc-collapsed` — **on this site, never express a default state by having JS strip a class after load.**
+
+   ⚠️ `.toc`'s `transform` is shared by both features, composed from two custom properties — `translateX(var(--toc-x))` (collapse) `translateY(var(--toc-reveal, 0px))` (hero). Never set `transform` on `.toc` from a new rule: it would silently clobber one of the two. Drive `--toc-x` / `--toc-reveal` instead.
 
 ## CSS conventions
 
 - Sections in order: Variables, Typography, Layout, Navigation, Hero, Sections, Figures, Gallery, Notes, Lightbox, Responsive.
-- Key variables: `--w-toc` (menu column width, currently 320px — also drives `.page`/`.hero--cover` offsets), `--w-page` (1100px), `--w-read` (800px reading column), `--space`, plus the palette (`--c-bg #faf8f5`, `--c-text #222`, `--c-secondary #666`, `--c-rule #ddd8d2`, sage `--c-accent #7d8a6a` / `--c-accent-ink`).
-- Reusable components: `.hero` / `.hero--cover`, `.chapter` + `.chapter__head/__eyebrow/__title`, `.period` (dated chapter opener), `figure.is-portrait/.is-landscape[.is-wide]`, `.gallery`, `.pullquote` (press citation), `.notes-list` + `.note-ref`, `.lightbox`, `.toc` + `.toc__sublist`.
+- Key variables: `--w-toc` (menu column width, currently 320px), `--w-page` (1100px), `--w-read` (800px reading column), `--space`, plus the palette (`--c-bg #faf8f5`, `--c-text #222`, `--c-secondary #666` / `--c-secondary-ink #4a4a4a` for toc links, `--c-rule #ddd8d2`, sage `--c-accent #7d8a6a` / `--c-accent-ink`). The `-ink` suffix means "darker variant of".
+- **Desktop widths**: `.page` adds the toc gutter *on top of* `--w-page` rather than having it subtracted (`box-sizing: border-box`), via a local `--gutter-left`. That single variable drives both `padding-left` and `max-width`, so collapsing the toc (`.toc-collapsed .page { --gutter-left: 3vw }`) re-centers the text. Nothing on the page exceeds `--w-read` any more, so `--w-page` now only sizes/centres that band — a `--w-band` rename would be more honest.
+- Reusable components: `.hero` / `.hero--cover`, `.chapter` + `.chapter__head/__eyebrow/__title`, `.period` (dated chapter opener), `figure.is-portrait/.is-landscape` (toutes deux dans la colonne de lecture — rien ne déborde), `.gallery`, `.pullquote` (press citation), `.notes-list` + `.note-ref`, `.lightbox`, `.toc` + `.toc__sublist`.
 - Figure numbers ("Figure N") are auto-generated via a CSS counter reset per `.chapter`.
 - **Scope descendant selectors carefully**: `.about-prose h3/ul/ol/li` is scoped precisely because a broad `.reading ol` would clobber `.notes-list` (which lives inside `.reading`). Same caution for any new `.reading …` rule.
 - The site targets light theme only.
