@@ -18,7 +18,7 @@ To view: open any `*.html` in a browser or serve the folder (`python3 -m http.se
 
 Git repo, remote `origin` = `git@github.com:AlexisRomeroDev/maquette-CR-Thornley.git`, work directly on `main`. **Commit/push only when the user explicitly asks** ("commit", "push"). Commit messages end with the `Co-Authored-By: Claude Opus 4.8` trailer.
 
-## Site structure (7 pages + shared assets)
+## Site structure (11 pages + shared assets)
 
 Content was split from one page into several; every page shares the same `<head>`, nav menu, and `script.js`.
 
@@ -26,27 +26,38 @@ Content was split from one page into several; every page shares the same `<head>
 - `index.html` — *Qui est William Thornley ?* (`h1`) = biography + *Parcours artistique* (`h2`, 3 dated periods `#periode-1/2/3`) + *Notes* (`h2`).
 - `museum.html` — *Le musée William Thornley à Osny* (`h1`) + its own *Notes*.
 - `bibliography.html` — *Bibliographie* (`h1`).
-- `artworks.html` — *Index des œuvres* (`h1`, eyebrow "Catalogue"). Placeholder content.
-- `collections.html` — *Index des collections* (`h1`, eyebrow "Fonds"). Placeholder content.
 - `about.html` — *À propos du catalogue raisonné* (`h1`) + 4 sections (Organisation, Méthodologie, Mode d'emploi, Équipe). Long prose wrapped in `.about-prose`.
+- **Six stub pages**, all cut from the same template (eyebrow + `h1` + one `.lead` saying *« Contenu à intégrer »*), awaiting real content — clone `artworks.html` when adding another:
+  - `artworks.html` — *Index des œuvres* (eyebrow "Catalogue")
+  - `collections.html` — *Index des collections* (eyebrow "Fonds")
+  - `personalities.html` — *Index des personnalités* (eyebrow "Personnes")
+  - `cities.html` — *Index des villes* (eyebrow "Lieux")
+  - `acknowledgements.html` — *Remerciements* (eyebrow "Appareil")
+  - `credits.html` — *Crédits photographiques* (eyebrow "Iconographie")
 - `style.css`, `script.js` — shared by all pages.
 
 Each page has exactly one `h1`; keep the heading outline coherent when editing.
 
 ## Shared menu — edit ALL pages together
 
-`<nav class="toc">` is **duplicated verbatim in all 7 pages** (no templating), and so is the `<head>` — including the small inline `toc-collapsed` script that must stay **before first paint**. Any menu or `<head>` change must be applied identically to every page (sed/python across files is the usual way). Current order: Présentation → Qui est William Thornley ? (sublist = 3 periods) → Index des œuvres (`.is-feature`, subtly highlighted) → Index des collections → Le musée → Bibliographie → À propos → Contact.
+`<nav class="toc">` is **duplicated verbatim in all 11 pages** (no templating), and so is the `<head>` — including the small inline `toc-collapsed` script that must stay **before first paint**. Any menu or `<head>` change must be applied identically to every page (a python pass over `glob('*.html')` is the usual way; verify with `md5sum` of the extracted `<nav>` block — all 11 must match).
 
-Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **Contact is still a placeholder `href="#"`** — the only one left; artworks/collections/about also contain image placeholders (`.placeholder-media`, "Image à insérer") awaiting real assets.
+Twelve entries in **three groups**, separated by a hairline rule carried by `li.is-group` (the group's first item) — *not* an empty `<li>`, which screen readers would announce as a blank list item:
+
+1. **le sujet** — Présentation → Qui est William Thornley ? (sublist = 3 periods) → Le musée
+2. **les index** — Index des œuvres (`.is-feature`, subtly highlighted) → des collections → des personnalités → des villes
+3. **l'appareil** — Bibliographie → Remerciements → Crédits photographiques → À propos → Contact
+
+Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **Contact is still a placeholder `href="#"`** — the only one left; about.html also contains image placeholders (`.placeholder-media`, "Image à insérer") awaiting real assets.
 
 ## script.js (one IIFE, 5 parts)
 
 1. **Collapsible menu at every size**, one `.toc-toggle` button but two regimes, keyed on `matchMedia('(min-width: 1100px)')`:
-   - *desktop* — column **open by default**; the toggle collapses it via `toc-collapsed` on `<html>`, and the state is **persisted in `localStorage`** (key `toc-collapsed`). Because the 7 pages are separate files, an inline script in every `<head>` re-applies the class **before first paint** — without it the menu would visibly jump on each navigation. Clicking a link does *not* collapse it.
+   - *desktop* — column **open by default**; the toggle collapses it via `toc-collapsed` on `<html>`, and the state is **persisted in `localStorage`** (key `toc-collapsed`). Because the 11 pages are separate files, an inline script in every `<head>` re-applies the class **before first paint** — without it the menu would visibly jump on each navigation. Clicking a link does *not* collapse it.
    - *mobile* — overlay panel, **closed by default**, `.toc.is-open` + `body.toc-open` scroll lock, closes after a link click. Switching up to desktop purges this state (a lingering `toc-open` would freeze scrolling).
 2. **Scrollspy** (IntersectionObserver): only observes menu links whose target is on the current page; parses `file#hash`, ignores cross-page links and bare `#` placeholders (a bare `#` must NOT be marked active).
 3. **Footnote popovers**: `.note-ref` → inline popover cloned from the `.notes-list` target, so the reader never leaves the text; falls back to anchor jump without JS.
-4. **Lightbox** (hand-written): guarded by `if (lb && images.length)` so pages without figures/lightbox (home, bibliography, artworks, collections) don't break. Click to open, ESC, click-outside, arrow keys.
+4. **Lightbox** (hand-written): guarded by `if (lb && images.length)` so the figure-less pages (home, bibliography, and the six stubs) don't break. Click to open, ESC, click-outside, arrow keys.
 5. **Home hero reveal** (desktop only, `.hero--cover` present): the menu is hidden under the full-screen hero and rises with scroll (JS sets `--toc-reveal` = `hero.getBoundingClientRect().bottom` on the toc), then sticks. The toc sits **below** the hero (`z-index:1` vs hero `z-index:2`) to mask a one-frame seam jitter; `will-change:transform` smooths it. Once the hero is scrolled past, JS puts `is-hero-passed` on the body: it reveals the toggle (no button floating over the cover before that) **and restores the toc's transition** — while the hero is in front, `--toc-reveal` tracks the scroll frame by frame, so any transition would make the menu lag behind it.
 
    The class marks the *passed* state, never the resting one, and that direction is deliberate: `script.js` loads at the end of `<body>`, so anything it must **remove** on arrival is painted first and flickers. CSS owns the at-rest look (`body.is-home` desktop = toggle hidden, no transition); JS only ever lifts it. Same reasoning as the `<head>` script for `toc-collapsed` — **on this site, never express a default state by having JS strip a class after load.**

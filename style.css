@@ -138,6 +138,14 @@ strong { font-weight: 600; }
 }
 .toc__list { list-style: none; margin: 0; padding: 0; }
 .toc__list li { margin: 0 0 0.9rem; }
+/* Ouverture d'un groupe (les index, puis l'appareil) : un filet porté par le
+   premier lien du groupe, plutôt qu'un <li> vide qu'un lecteur d'écran
+   annoncerait comme un élément de liste sans contenu. */
+.toc__list > li.is-group {
+  border-top: 1px solid var(--c-rule);
+  margin-top: 1.6rem;
+  padding-top: 1.6rem;
+}
 .toc__list a {
   color: var(--c-secondary-ink);
   text-decoration: none;
