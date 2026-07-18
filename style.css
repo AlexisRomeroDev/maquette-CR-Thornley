@@ -128,7 +128,13 @@ strong { font-weight: 600; }
     transition: none;
   }
   body.is-home.is-hero-passed .toc { transition: transform 0.28s ease; }
-}
+
+  /* Le hero fait 100vh et le menu remonte à son rythme : pour qu'il puisse se
+     dégager entièrement (--toc-reveal → 0, bouton .toc-toggle révélé), il faut
+     toujours au moins un écran de contenu à faire défiler sous lui. Une home
+     courte (présentation brève) ne l'atteindrait pas sans ce plancher, et le
+     sommaire resterait à jamais impossible à escamoter. */
+  body.is-home .page { min-height: calc(100vh + 6rem); }
 .toc__title {
   font-family: var(--font-title);
   font-size: 1rem;
