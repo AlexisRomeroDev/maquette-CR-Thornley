@@ -491,7 +491,7 @@ body.is-searching .hero { display: none; }
 
 .search-results__count {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--c-secondary);
   margin-bottom: 2.5rem;
 }
@@ -500,7 +500,7 @@ body.is-searching .hero { display: none; }
 .results__group {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--c-accent-ink);
@@ -512,10 +512,10 @@ body.is-searching .hero { display: none; }
 .result + .result { border-top: 1px solid var(--c-rule); }
 .result__link {
   display: grid;
-  grid-template-columns: 96px 1fr;   /* vignette + signalétique */
-  gap: 1.4rem;
+  grid-template-columns: 116px 1fr;   /* vignette + signalétique */
+  gap: 1.6rem;
   align-items: center;
-  padding: 1.1rem 0;
+  padding: 1.25rem 0;
   text-decoration: none;
   color: inherit;
 }
@@ -525,7 +525,7 @@ body.is-searching .hero { display: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 72px;
+  height: 92px;
   background: #fff;
   border: 1px solid var(--c-rule);
 }
@@ -536,17 +536,17 @@ body.is-searching .hero { display: none; }
 }
 .result__num {
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--c-accent-ink);
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.2rem;
 }
 .result__title {
   display: block;
   font-family: var(--font-title);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.25;
   color: var(--c-text);
   transition: color 0.2s;
@@ -554,9 +554,9 @@ body.is-searching .hero { display: none; }
 .result__link:hover .result__title { color: var(--c-accent-ink); }
 .result__meta {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--c-secondary);
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
 }
 /* Résultat « page » : pas de vignette, la colonne de gauche disparaît */
 .result--page .result__link { grid-template-columns: 1fr; }
@@ -565,8 +565,8 @@ body.is-searching .hero { display: none; }
 .search-empty em { font-style: italic; color: var(--c-text); }
 
 @media (max-width: 640px) {
-  .result__link { grid-template-columns: 68px 1fr; gap: 1rem; }
-  .result__media { height: 56px; }
+  .result__link { grid-template-columns: 84px 1fr; gap: 1.15rem; }
+  .result__media { height: 72px; }
   .result__title { font-size: 1.1rem; }
 }
 
