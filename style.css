@@ -694,6 +694,11 @@ body.is-searching .hero { display: none; }
   }
   .toc.is-open { --toc-x: 0; }
   body.toc-open { overflow: hidden; }
+  /* Le bouton de bascule est fixé en haut à gauche (top 1rem + 2.75rem de haut).
+     Le compteur et les intitulés de groupe des résultats sont alignés à gauche
+     et calés en haut : on dégage la hauteur du bouton pour qu'ils ne passent pas
+     dessous. Le contenu courant des pages, lui, est centré et n'en a pas besoin. */
+  .search-results { padding-top: 4.75rem; }
 }
 
 @media (max-width: 640px) {
