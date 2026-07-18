@@ -135,6 +135,7 @@ strong { font-weight: 600; }
      courte (présentation brève) ne l'atteindrait pas sans ce plancher, et le
      sommaire resterait à jamais impossible à escamoter. */
   body.is-home .page { min-height: calc(100vh + 6rem); }
+}
 .toc__title {
   font-family: var(--font-title);
   font-size: 1rem;
