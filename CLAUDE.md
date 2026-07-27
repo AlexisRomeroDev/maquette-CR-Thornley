@@ -18,7 +18,7 @@ To view: open any `*.html` in a browser or serve the folder (`python3 -m http.se
 
 Git repo, remote `origin` = `git@github.com:AlexisRomeroDev/maquette-CR-Thornley.git`, work directly on `main`. **Commit/push only when the user explicitly asks** ("commit", "push"). Commit messages end with the `Co-Authored-By: Claude Opus 4.8` trailer.
 
-## Site structure (11 pages + shared assets)
+## Site structure (12 pages + shared assets)
 
 Content was split from one page into several; every page shares the same `<head>`, nav menu, and `script.js`.
 
@@ -27,6 +27,7 @@ Content was split from one page into several; every page shares the same `<head>
 - `museum.html` — *Le musée William Thornley à Osny* (`h1`) + its own *Notes*.
 - `bibliography.html` — *Bibliographie* (`h1`).
 - `about.html` — *À propos du catalogue raisonné* (`h1`) + 4 sections (Organisation, Méthodologie, Mode d'emploi, Équipe). Long prose wrapped in `.about-prose`.
+- `contact.html` — *Contact* (`h1`, eyebrow "Correspondance"). `.contact-grid` = form (nom / courriel / message) + `aside.contact-aside` "En pratique"; one column under 900px. **No mail service is wired**: native validation only (no `novalidate`), and the JS handler cancels the submit and says so rather than faking a confirmation. Address and response time are `.placeholder-data` blocks awaiting real values.
 - **Six stub pages**, all cut from the same template (eyebrow + `h1` + one `.lead` saying *« Contenu à intégrer »*), awaiting real content — clone `artworks.html` when adding another:
   - `artworks.html` — *Index des œuvres* (eyebrow "Catalogue")
   - `collections.html` — *Index des collections* (eyebrow "Fonds")
@@ -41,7 +42,7 @@ Each page has exactly one `h1`; keep the heading outline coherent when editing.
 
 ## Shared menu — edit ALL pages together
 
-`<nav class="toc">` is **duplicated verbatim in all 11 pages** (no templating), and so is the `<head>` — including the small inline `toc-collapsed` script that must stay **before first paint**. Any menu or `<head>` change must be applied identically to every page (a python pass over `glob('*.html')` is the usual way; verify with `md5sum` of the extracted `<nav>` block — all 11 must match).
+`<nav class="toc">` is **duplicated verbatim in all 12 pages** (no templating), and so is the `<head>` — including the small inline `toc-collapsed` script that must stay **before first paint**. Any menu or `<head>` change must be applied identically to every page (a python pass over `glob('*.html')` is the usual way; verify with `md5sum` of the extracted `<nav>` block — all 12 must match).
 
 Twelve entries in **three groups**, separated by a hairline rule carried by `li.is-group` (the group's first item) — *not* an empty `<li>`, which screen readers would announce as a blank list item:
 
@@ -49,9 +50,9 @@ Twelve entries in **three groups**, separated by a hairline rule carried by `li.
 2. **les index** — Index des œuvres (`.is-feature`, subtly highlighted) → des collections → des personnalités → des villes
 3. **l'appareil** — Bibliographie → Remerciements → Crédits photographiques → À propos → Contact
 
-Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **Contact is still a placeholder `href="#"`** — the only one left; about.html also contains image placeholders (`.placeholder-media`, "Image à insérer") awaiting real assets.
+Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup works from any page. **No dead `href="#"` is left in the menu.** Remaining placeholders live inside pages: `about.html`'s image slots (`.placeholder-media`, "Image à insérer") and `contact.html`'s `.placeholder-data` blocks.
 
-## script.js (one IIFE, 6 parts)
+## script.js (one IIFE, 7 parts)
 
 1. **Collapsible menu at every size**, one `.toc-toggle` button but two regimes, keyed on `matchMedia('(min-width: 1100px)')`:
    - *desktop* — column **open by default**; the toggle collapses it via `toc-collapsed` on `<html>`, and the state is **persisted in `localStorage`** (key `toc-collapsed`). Because the 11 pages are separate files, an inline script in every `<head>` re-applies the class **before first paint** — without it the menu would visibly jump on each navigation. Clicking a link does *not* collapse it.
@@ -69,9 +70,11 @@ Links use full filenames + hash (e.g. `index.html#parcours`) so the same markup 
 
    **French normalisation is the whole job, not the matching.** The `œ` ligature has *no* Unicode decomposition — neither NFD nor NFKD touches it — so `norm()` maps `œ→oe` / `æ→ae` **before** stripping diacritics; without it "oeuvres" would never find "œuvres", the catalogue's flagship word. Non-breaking spaces (U+00A0/U+202F, mandated by the French typography rules) are folded to plain spaces, and apostrophes act as word boundaries so "aquarelle" finds "l'aquarelle". Any new data field must go through `mots()`.
 
+7. **Contact form** (`contact.html` only, guarded by `if (formulaire && etat)`): validation is left to the browser, so the handler only ever sees a valid form. It cancels the submit and writes into `.form__status` that the maquette has no recipient — **never fake a confirmation**: a correspondent would believe their signalement was sent. Replace this part, not the markup, when the CMS provides an endpoint.
+
 ## CSS conventions
 
-- Sections in order: Variables, Typography, Layout, Navigation, Hero, Sections, Figures, Gallery, Recherche, Notes, Lightbox, Responsive.
+- Sections in order: Variables, Typography, Layout, Navigation, Hero, Sections, Figures, Gallery, Recherche, Formulaire, Notes, Lightbox, Responsive.
 - Key variables: `--w-toc` (menu column width, currently 320px), `--w-page` (1100px), `--w-read` (800px reading column), `--space`, plus the palette (`--c-bg #faf8f5`, `--c-text #222`, `--c-secondary #666` / `--c-secondary-ink #4a4a4a` for toc links, `--c-rule #ddd8d2`, sage `--c-accent #7d8a6a` / `--c-accent-ink`). The `-ink` suffix means "darker variant of".
 - **Desktop widths**: `.page` adds the toc gutter *on top of* `--w-page` rather than having it subtracted (`box-sizing: border-box`), via a local `--gutter-left`. That single variable drives both `padding-left` and `max-width`, so collapsing the toc (`.toc-collapsed .page { --gutter-left: 3vw }`) re-centers the text. Nothing on the page exceeds `--w-read` any more, so `--w-page` now only sizes/centres that band — a `--w-band` rename would be more honest.
 - Reusable components: `.hero` / `.hero--cover`, `.chapter` + `.chapter__head/__eyebrow/__title`, `.period` (dated chapter opener), `figure.is-portrait/.is-landscape` (toutes deux dans la colonne de lecture — rien ne déborde), `.gallery`, `.pullquote` (press citation), `.notes-list` + `.note-ref`, `.lightbox`, `.toc` + `.toc__sublist`.

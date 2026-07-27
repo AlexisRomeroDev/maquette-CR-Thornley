@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Catalogue raisonné William Thornley</title>
+  <meta name="description" content="Écrire au comité scientifique du catalogue raisonné numérique consacré au peintre William Thornley (1857–1935).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Sommaire replié : appliqué avant l'affichage pour éviter tout saut. -->
+  <script>try{if(localStorage.getItem('toc-collapsed')==='1'){document.documentElement.classList.add('toc-collapsed');}}catch(e){}</script>
+</head>
+<body>
+
+  <!-- Bouton de bascule du sommaire (toutes tailles) -->
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc" aria-label="Afficher ou masquer le sommaire">☰</button>
+
+  <!-- Menu (identique sur toutes les pages) -->
+  <nav class="toc" id="toc" aria-label="Menu principal">
+    <p class="toc__title">Sommaire</p>
+    <!-- Recherche : masquée au repos, révélée par le JS (sans lui elle ne peut
+         rien faire). Le CSS tient l'état au repos, le script ne fait que le lever. -->
+    <div class="toc__search" hidden>
+      <input type="search" id="toc-search" class="toc__search-input"
+             placeholder="Rechercher une œuvre…" autocomplete="off"
+             aria-label="Rechercher dans le catalogue raisonné">
+    </div>
+    <ul class="toc__list">
+      <li><a href="home.html">Présentation</a></li>
+      <li>
+        <a href="index.html#biographie">Qui est William Thornley&nbsp;?</a>
+        <ul class="toc__sublist">
+          <li><a href="index.html#periode-1">1878–1895 · Les années de formation</a></li>
+          <li><a href="index.html#periode-2">1895–1907 · L'âge d'or de l'aquarelle</a></li>
+          <li><a href="index.html#periode-3">1907–1935 · Voyages et atelier d'Osny</a></li>
+        </ul>
+      </li>
+      <li><a href="museum.html">Le musée William Thornley</a></li>
+      <li class="is-group"><a href="artworks.html" class="is-feature">Index des œuvres</a></li>
+      <li><a href="collections.html">Index des collections</a></li>
+      <li><a href="personalities.html">Index des personnalités</a></li>
+      <li><a href="cities.html">Index des villes</a></li>
+      <li class="is-group"><a href="bibliography.html">Bibliographie</a></li>
+      <li><a href="acknowledgements.html">Remerciements</a></li>
+      <li><a href="credits.html">Crédits photographiques</a></li>
+      <li><a href="about.html">À propos du Catalogue Raisonné</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="chapter" id="contact" aria-labelledby="contact-title">
+      <div class="chapter__head reading">
+        <p class="chapter__eyebrow">Correspondance</p>
+        <h1 class="chapter__title" id="contact-title">Contact</h1>
+      </div>
+
+      <div class="reading">
+        <p class="lead">Le catalogue raisonné est un travail ouvert&nbsp;: il s'enrichit des œuvres
+        que les collectionneurs, les marchands et les institutions veulent bien porter à sa
+        connaissance. Toute correction, toute provenance, toute pièce inédite est la bienvenue&nbsp;;
+        chaque signalement est examiné par le comité scientifique avant intégration.</p>
+      </div>
+
+      <!-- Formulaire à gauche, informations pratiques à droite ; une seule
+           colonne sous 900px (le formulaire d'abord, il porte l'action). -->
+      <div class="reading contact-grid">
+
+        <!-- Pas de `novalidate` : la validation native suffit, elle est déjà
+             traduite, et le formulaire reste défendu sans JavaScript. -->
+        <form class="form" id="contact-form" action="#" method="post">
+          <h2 class="form__title">Écrire au comité</h2>
+
+          <div class="form__field">
+            <label class="form__label" for="f-nom">Nom</label>
+            <input class="form__control" type="text" id="f-nom" name="nom"
+                   autocomplete="name" required>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label" for="f-email">Courriel</label>
+            <input class="form__control" type="email" id="f-email" name="email"
+                   autocomplete="email" required aria-describedby="f-email-aide">
+            <p class="form__hint" id="f-email-aide">Pour recevoir notre réponse&nbsp;; jamais diffusé.</p>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label" for="f-message">Message</label>
+            <textarea class="form__control form__control--area" id="f-message" name="message"
+                      rows="8" required aria-describedby="f-message-aide"></textarea>
+            <p class="form__hint" id="f-message-aide">S'il s'agit d'une œuvre&nbsp;: titre, technique,
+            dimensions, signature, provenance connue — et une photographie si vous en disposez.</p>
+          </div>
+
+          <div class="form__actions">
+            <button class="btn" type="submit">Envoyer le message</button>
+          </div>
+
+          <!-- Retour d'envoi (rempli par le JS) -->
+          <p class="form__status" id="contact-status" role="status" aria-live="polite" hidden></p>
+
+          <p class="form__note">Maquette&nbsp;: le formulaire n'est relié à aucun service d'envoi.
+          Aucun message n'est transmis ni conservé pour l'instant.</p>
+        </form>
+
+        <aside class="contact-aside" aria-labelledby="pratique-title">
+          <h2 class="contact-aside__title" id="pratique-title">En pratique</h2>
+
+          <dl class="contact-list">
+            <dt>Comité scientifique</dt>
+            <dd>
+              <span class="placeholder-data">Adresse postale et courriel du comité</span>
+            </dd>
+
+            <dt>Délai de réponse</dt>
+            <dd><span class="placeholder-data">Délai annoncé aux correspondants</span></dd>
+
+            <dt>Authentification</dt>
+            <dd>Le catalogue n'établit ni certificat ni estimation. Les œuvres signalées sont
+            étudiées pour elles-mêmes, en vue d'une éventuelle inscription.</dd>
+
+            <dt>Reproductions</dt>
+            <dd>Les demandes de droits sur les images relèvent des ayants droit indiqués en
+            <a href="credits.html">crédits photographiques</a>.</dd>
+          </dl>
+
+          <p class="contact-aside__more">Sur l'organisation du catalogue et l'équipe qui le tient,
+          voir <a href="about.html">À propos du catalogue raisonné</a>.</p>
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="search-data.demo.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

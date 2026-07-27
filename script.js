@@ -7,6 +7,7 @@
      4. Visionneuse d'images (clic, ESC, clic hors image, clavier)
      5. Apparition du menu sous le hero (accueil, desktop)
      6. Recherche (filtre à la frappe, données d'exemple)
+     7. Formulaire de contact (maquette : aucun envoi)
    ========================================================================= */
 (function () {
   'use strict';
@@ -410,6 +411,31 @@
       if (desktopMq.matches) { if (isCollapsed()) { setCollapsed(false); } }
       else if (!toc.classList.contains('is-open')) { openToc(); }
       champ.focus();
+    });
+  }
+
+  /* 7. Formulaire de contact --------------------------------------------- */
+  /* Présent sur la seule page contact.html — d'où le garde. La validation est
+     laissée au navigateur (pas de `novalidate` sur le formulaire) : elle est
+     native, traduite, et opère même sans JavaScript. Le gestionnaire ci-dessous
+     ne s'exécute donc que sur une saisie valide.
+
+     Il n'y a pas de service d'envoi : plutôt que de simuler une confirmation —
+     un correspondant croirait son signalement parti —, on annonce que la
+     maquette n'a pas encore de destinataire, et on laisse la saisie en place. */
+  var formulaire = document.getElementById('contact-form');
+  var etat = document.getElementById('contact-status');
+
+  if (formulaire && etat) {
+    formulaire.addEventListener('submit', function (e) {
+      e.preventDefault();               // rien à poster tant que le CMS n'est pas branché
+      etat.textContent = 'Maquette : aucun destinataire n’est encore branché, ' +
+        'votre message n’a donc pas été envoyé. Votre saisie est conservée ci-dessus.';
+      etat.hidden = false;
+      // Le message est annoncé par role="status" ; le focus va dessus pour que
+      // le lecteur au clavier ne reparte pas de l'en-tête de la page.
+      etat.setAttribute('tabindex', '-1');
+      etat.focus();
     });
   }
 })();

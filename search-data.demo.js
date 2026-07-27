@@ -560,5 +560,10 @@ window.CR_SEARCH_DATA = [
   "t": "page",
   "titre": "À propos du Catalogue Raisonné",
   "url": "about.html"
+ },
+ {
+  "t": "page",
+  "titre": "Contact",
+  "url": "contact.html"
  }
 ];

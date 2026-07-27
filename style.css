@@ -11,9 +11,10 @@
      7. Figures
      8. Gallery
      9. Recherche
-    10. Notes
-    11. Lightbox
-    12. Responsive
+    10. Formulaire
+    11. Notes
+    12. Lightbox
+    13. Responsive
    ========================================================================= */
 
 /* 1. Variables ---------------------------------------------------------- */
@@ -25,6 +26,7 @@
   --c-rule:      #ddd8d2;
   --c-accent:    #7d8a6a;          /* vert sauge discret */
   --c-accent-ink:#5f6a4f;
+  --c-alert:     #9c4a3c;          /* saisie invalide (terre brûlée, pas rouge vif) */
 
   --font-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-body:  "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -571,7 +573,177 @@ body.is-searching .hero { display: none; }
   .result__title { font-size: 1.1rem; }
 }
 
-/* 10. Notes -------------------------------------------------------------- */
+/* 10. Formulaire --------------------------------------------------------- */
+/* Vocabulaire volontairement pauvre : filets d'un pixel, capitales espacées,
+   aucun aplat ni ombre. Un formulaire de livre, pas de site marchand. */
+
+/* Formulaire à gauche, informations pratiques à droite. Une seule colonne en
+   dessous de 900px — le formulaire d'abord, il porte l'action de la page. */
+.contact-grid { margin-top: 1rem; }
+@media (min-width: 900px) {
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+}
+
+.form__title,
+.contact-aside__title {
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 1.45rem;
+  color: var(--c-accent-ink);
+  margin-bottom: 1.6rem;
+}
+
+.form__field { margin-bottom: 1.8rem; }
+
+/* Intitulé de champ : même traitement que les eyebrows et les titres de
+   groupe de résultats — une seule graduation typographique sur tout le site. */
+.form__label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.5rem;
+}
+
+/* Même dessin que le champ de recherche du sommaire, à l'échelle du texte
+   courant : le lecteur reconnaît une zone de saisie d'un bout à l'autre. */
+.form__control {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.form__control--area { resize: vertical; min-height: 9rem; }
+.form__control:focus {
+  /* Le contour double le filet plutôt qu'il ne le remplace : la surbrillance
+     reste lisible même si le navigateur ignore la couleur de bordure. */
+  border-color: var(--c-accent);
+  outline: 1px solid var(--c-accent);
+  outline-offset: 0;
+}
+/* :user-invalid et non :invalid — un champ requis encore vide n'est pas une
+   faute tant que le lecteur ne l'a pas quitté ou n'a pas tenté d'envoyer. */
+.form__control:user-invalid { border-color: var(--c-alert); }
+
+.form__hint {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-secondary);
+  margin: 0.5rem 0 0;
+}
+
+.form__actions { margin-top: 2.2rem; }
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.7rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  background: transparent;
+  border: 1px solid var(--c-accent);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.btn:hover { background: var(--c-accent); color: #fff; }
+.btn:focus-visible { outline: 1px solid var(--c-accent-ink); outline-offset: 2px; }
+
+/* Retour d'envoi : un filet vertical, comme un lien actif du sommaire */
+.form__status {
+  margin: 1.6rem 0 0;
+  padding: 0.9rem 1.15rem;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  border-left: 2px solid var(--c-accent);
+  border-radius: 2px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+/* Le JS y place le focus pour que le clavier ne reparte pas du haut de page.
+   Le bloc n'est pas atteignable au tabulateur (tabindex="-1") et le message est
+   déjà visible et annoncé : le contour du navigateur n'apporte rien et masque
+   le filet sauge. */
+.form__status:focus { outline: none; }
+
+.form__note {
+  margin: 1.6rem 0 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--c-secondary);
+}
+
+/* Colonne latérale : notes pratiques, en retrait typographique du formulaire */
+.contact-aside {
+  /* En colonne unique, la marge remplace la gouttière de la grille : sans elle
+     « En pratique » viendrait buter contre la mention de bas de formulaire. */
+  margin-top: 3.5rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--c-secondary);
+}
+@media (min-width: 900px) {
+  /* Filet de séparation plutôt qu'un encadré : la colonne reste de l'air. */
+  .contact-aside {
+    margin-top: 0;                 /* la gouttière de la grille s'en charge */
+    border-left: 1px solid var(--c-rule);
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+.contact-list { margin: 0; }
+.contact-list dt {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.4rem;
+}
+.contact-list dd { margin: 0 0 1.7rem; }
+.contact-list dd:last-child { margin-bottom: 0; }
+.contact-aside__more { margin: 2rem 0 0; padding-top: 1.5rem; border-top: 1px solid var(--c-rule); }
+
+/* Donnée en attente (adresse, délai…) : même code visuel que les images
+   manquantes de « À propos » — un cadre pointillé se voit sans crier. */
+.placeholder-data {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  border: 1px dashed var(--c-rule);
+  color: var(--c-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.placeholder-data::before {
+  content: "Donnée à compléter";
+  display: block;
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.25rem;
+}
+
+/* 11. Notes -------------------------------------------------------------- */
 .note-ref {
   font-size: 0.72em;
   vertical-align: super;
@@ -617,7 +789,7 @@ body.is-searching .hero { display: none; }
   margin-bottom: 0.4rem;
 }
 
-/* 11. Lightbox (visionneuse maison) ------------------------------------- */
+/* 12. Lightbox (visionneuse maison) ------------------------------------- */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -663,7 +835,7 @@ body.is-searching .hero { display: none; }
 .lightbox__prev { left: 1vw; top: 50%; transform: translateY(-50%); }
 .lightbox__next { right: 1vw; top: 50%; transform: translateY(-50%); }
 
-/* 12. Responsive -------------------------------------------------------- */
+/* 13. Responsive -------------------------------------------------------- */
 /* Desktop : la colonne de lecture est décalée pour laisser vivre le sommaire.
    La gouttière du menu est ajoutée à --w-page au lieu d'être prélevée dessus
    (box-sizing: border-box) : --w-page reste la largeur du contenu, et la
