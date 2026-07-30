@@ -592,6 +592,194 @@ figure.is-portrait { max-width: 30rem; }
 .gallery figcaption::before { content: "Figure " counter(figure); }
 /* Les figures d'une galerie partagent le compteur global du chapitre */
 
+/* Filtres d'index : une bande d'appareil entre le chapeau et la grille, tenue
+   par deux filets comme un tableau de livre. Composant générique (aucune
+   mention d'un artiste ni d'un champ propre à Thornley) : les rubriques sont
+   des .filters__field indifférenciés, on en ajoute ou en retire une sans
+   toucher au reste. Non branché : cf. le commentaire dans artworks.html. */
+.filters {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--c-rule);
+  border-bottom: 1px solid var(--c-rule);
+}
+.filters__grid {
+  display: grid;
+  gap: 1.9rem 3rem;
+}
+/* fieldset : remise à plat, on ne garde que la sémantique du groupe */
+.filters__field { min-width: 0; margin: 0; padding: 0; border: 0; }
+.filters__label {
+  display: block;
+  padding: 0;                      /* legend */
+  margin: 0 0 0.7rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-secondary);
+}
+.filters__input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.filters__input::placeholder { color: var(--c-secondary); opacity: 1; }
+.filters__input:focus { outline: none; border-color: var(--c-accent); }
+.filters__input::-webkit-search-cancel-button { cursor: pointer; }
+
+.filters__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.filters__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem 2rem;
+  margin-top: 1.9rem;
+}
+.filters__note {
+  margin: 0;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--c-secondary);
+}
+/* Remise à zéro : un bouton discret, pas un .btn — c'est une commande de
+   service, elle ne doit pas peser plus que les filtres eux-mêmes. */
+.filters__reset {
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--c-secondary-ink);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--c-rule);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.filters__reset:hover { color: var(--c-accent-ink); border-color: var(--c-accent); }
+
+@media (min-width: 900px) {
+  .filters__grid { grid-template-columns: 1fr 1fr; }
+  .filters__field--wide { grid-column: 1 / -1; }
+}
+
+/* Étiquette à cocher (technique, et toute autre facette à venir) : la case
+   native est masquée mais reste focalisable, le <span> porte l'apparence. */
+.chip { position: relative; display: inline-flex; }
+.chip input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.chip span {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--c-secondary-ink);
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  border-radius: 100px;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+.chip input:hover + span { border-color: var(--c-accent); color: var(--c-accent-ink); }
+.chip input:checked + span {
+  color: #fff;
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+.chip input:focus-visible + span {
+  outline: 1px solid var(--c-accent-ink);
+  outline-offset: 2px;
+}
+
+/* Curseur de plage à deux poignées : deux <input type="range"> superposés sur
+   un rail dessiné, seule solution sans dépendance (aucun contrôle natif ne
+   porte deux valeurs). Les rails natifs sont rendus transparents, les inputs
+   ne captent le pointeur que sur leurs poignées, sinon le second couvrirait
+   le premier. Le segment coloré est piloté par --from / --to : c'est au JS de
+   les mettre à jour le jour où le filtre sera branché. */
+.range {
+  position: relative;
+  height: 1.6rem;
+  --from: 0%;
+  --to: 100%;
+}
+.range__track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--c-rule);
+}
+.range__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--from);
+  right: calc(100% - var(--to));
+  background: var(--c-accent);
+}
+.range__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.range__input:focus { outline: none; }
+.range__input::-webkit-slider-runnable-track { background: transparent; border: 0; }
+.range__input::-moz-range-track { background: transparent; border: 0; }
+.range__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-accent-ink);
+  border-radius: 50%;
+  cursor: ew-resize;
+  pointer-events: auto;
+  transition: background-color 0.2s;
+}
+.range__input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-accent-ink);
+  border-radius: 50%;
+  cursor: ew-resize;
+  pointer-events: auto;
+  transition: background-color 0.2s;
+}
+.range__input:hover::-webkit-slider-thumb { background: var(--c-accent); }
+.range__input:hover::-moz-range-thumb { background: var(--c-accent); }
+.range__input:focus-visible::-webkit-slider-thumb { outline: 1px solid var(--c-accent-ink); outline-offset: 2px; }
+.range__input:focus-visible::-moz-range-thumb { outline: 1px solid var(--c-accent-ink); outline-offset: 2px; }
+.range__values {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.35rem 0 0;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: var(--c-text);
+}
+
 /* Grille d'index (Index des œuvres et pages similaires) : vignettes carrées,
    plus dense qu'une .gallery de chapitre — ces index comptent des dizaines,
    voire des centaines d'entrées à terme. `auto-fill` évite tout point de

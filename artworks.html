@@ -62,6 +62,74 @@
         <p class="lead">Cette page réunit les œuvres cataloguées de William Thornley, classées par ordre chronologique.</p>
       </div>
 
+      <!-- Filtres de l'index : affichage seul. Aucun JS n'y est rattaché — les
+           commandes sont réelles et manipulables (curseurs, cases), mais elles
+           ne trient rien et le segment coloré de la plage d'années est figé
+           (--from / --to en style inline). Un <div role="search"> plutôt qu'un
+           <form> : sans destination, un formulaire rechargerait la page à la
+           validation du champ de recherche. -->
+      <div class="filters" role="search" aria-label="Filtrer l'index des œuvres">
+        <div class="filters__grid">
+
+          <div class="filters__field">
+            <label class="filters__label" for="filter-query">Recherche</label>
+            <input type="search" id="filter-query" class="filters__input"
+                   placeholder="Titre, lieu, inscription…" autocomplete="off">
+          </div>
+
+          <div class="filters__field">
+            <p class="filters__label" id="filter-years-label">Datation</p>
+            <div class="range" style="--from: 0%; --to: 100%;">
+              <div class="range__track" aria-hidden="true">
+                <div class="range__fill"></div>
+              </div>
+              <input type="range" class="range__input" id="filter-year-min"
+                     min="1870" max="1935" step="1" value="1870"
+                     aria-label="Année minimale">
+              <input type="range" class="range__input" id="filter-year-max"
+                     min="1870" max="1935" step="1" value="1935"
+                     aria-label="Année maximale">
+            </div>
+            <p class="range__values">
+              <span>1870</span>
+              <span>1935</span>
+            </p>
+          </div>
+
+          <fieldset class="filters__field filters__field--wide">
+            <legend class="filters__label">Technique</legend>
+            <div class="filters__chips">
+              <label class="chip">
+                <input type="checkbox" name="technique" value="huile">
+                <span>Huile</span>
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="technique" value="aquarelle">
+                <span>Aquarelle</span>
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="technique" value="dessin">
+                <span>Dessin</span>
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="technique" value="pastel">
+                <span>Pastel</span>
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="technique" value="estampe">
+                <span>Estampe</span>
+              </label>
+            </div>
+          </fieldset>
+
+        </div>
+
+        <div class="filters__foot">
+          <p class="filters__note">Les filtres seront actifs lorsque le CMS fournira les données du catalogue.</p>
+          <button type="button" class="filters__reset">Réinitialiser</button>
+        </div>
+      </div>
+
       <!-- Données d'exemple, en attente de la sortie du CMS maison (cf. search-data.demo.js) :
            numéros, titres et dates sont fictifs et n'ont aucune valeur de catalogage.
            Seules les 40 premières œuvres (sur 172) sont listées ici : la pagination est
