@@ -853,6 +853,16 @@ figure.is-portrait { max-width: 30rem; }
   color: var(--c-secondary);
   margin-top: 0.2rem;
 }
+/* Format, sous la date : d'un cran plus discret qu'elle — c'est une donnée de
+   contrôle, pas un élément d'identification. `nowrap` pour qu'un format ne se
+   coupe jamais entre ses deux mesures ou avant son unité. */
+.artwork-card__size {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--c-secondary);
+  white-space: nowrap;
+  margin-top: 0.1rem;
+}
 
 /* Pied de l'index (compteur + pagination) : construit par script.js, absent
    sans JS — l'index reste alors une simple liste continue de toutes les
