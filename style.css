@@ -925,6 +925,16 @@ figure.is-portrait { max-width: 30rem; }
   color: var(--c-secondary);
   white-space: nowrap;
 }
+/* Qualificatif du nom (département d'une ville, pays…) : accolé au nom plutôt
+   que placé en troisième colonne, où il flotterait entre le nom et le compte.
+   Le point médian est porté par le CSS — le nom et son territoire restent deux
+   données distinctes dans le balisage. */
+.index-entry__place {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--c-secondary);
+}
+.index-entry__place::before { content: " · "; }
 .index-entry__variants,
 .index-entry__note {
   margin: 0.3rem 0 0;
