@@ -8,11 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <!-- Feuille de style versionnée : incrémenter ?v= à chaque modification de
+       style.css, sinon les navigateurs continuent de servir leur copie en cache. -->
+  <link rel="stylesheet" href="style.css?v=2">
   <!-- Sommaire replié : appliqué avant l'affichage pour éviter tout saut. -->
   <script>try{if(localStorage.getItem('toc-collapsed')==='1'){document.documentElement.classList.add('toc-collapsed');}}catch(e){}</script>
 </head>
-<body>
+<body class="is-artwork">
 
   <!-- Bouton de bascule du sommaire (toutes tailles) -->
   <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc" aria-label="Afficher ou masquer le sommaire">☰</button>
@@ -173,6 +175,6 @@
   </div>
 
   <script src="search-data.demo.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

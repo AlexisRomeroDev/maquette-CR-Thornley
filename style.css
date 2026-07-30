@@ -435,9 +435,13 @@ strong { font-weight: 600; }
 
 .artwork-detail { gap: clamp(2rem, 5vw, 4rem); }
 @media (min-width: 900px) {
+  /* Colonnes inégales : la signalétique est du texte — une quinzaine de
+     rubriques, des listes, une description suivie — quand la reproduction n'a
+     besoin que d'être lisible. À parts égales elle étouffait la colonne de
+     droite. `minmax(0, …)` empêche une image large de forcer sa piste. */
   .artwork-detail {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     align-items: start;
   }
 }
@@ -625,7 +629,8 @@ figure.is-portrait { max-width: 30rem; }
   text-transform: uppercase;
   color: var(--c-secondary);
 }
-.filters__input {
+.filters__input,
+.filters__select {
   width: 100%;
   padding: 0.55rem 0.75rem;
   font-family: var(--font-body);
@@ -637,10 +642,13 @@ figure.is-portrait { max-width: 30rem; }
   transition: border-color 0.2s;
 }
 .filters__input::placeholder { color: var(--c-secondary); opacity: 1; }
-.filters__input:focus { outline: none; border-color: var(--c-accent); }
+.filters__input:focus,
+.filters__select:focus { outline: none; border-color: var(--c-accent); }
 .filters__input::-webkit-search-cancel-button { cursor: pointer; }
-
-.filters__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+/* Sélecteur laissé au rendu natif : le chevron du système est plus fiable
+   qu'un caractère posé en fond, et la liste déroulante reste celle du
+   navigateur — aucune dépendance, aucun JS. */
+.filters__select { cursor: pointer; }
 
 .filters__foot {
   display: flex;
@@ -673,37 +681,6 @@ figure.is-portrait { max-width: 30rem; }
 
 @media (min-width: 900px) {
   .filters__grid { grid-template-columns: 1fr 1fr; }
-  .filters__field--wide { grid-column: 1 / -1; }
-}
-
-/* Étiquette à cocher (technique, et toute autre facette à venir) : la case
-   native est masquée mais reste focalisable, le <span> porte l'apparence. */
-.chip { position: relative; display: inline-flex; }
-.chip input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-.chip span {
-  padding: 0.35rem 0.9rem;
-  font-size: 0.85rem;
-  color: var(--c-secondary-ink);
-  background: #fff;
-  border: 1px solid var(--c-rule);
-  border-radius: 100px;
-  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
-}
-.chip input:hover + span { border-color: var(--c-accent); color: var(--c-accent-ink); }
-.chip input:checked + span {
-  color: #fff;
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-}
-.chip input:focus-visible + span {
-  outline: 1px solid var(--c-accent-ink);
-  outline-offset: 2px;
 }
 
 /* Curseur de plage à deux poignées : deux <input type="range"> superposés sur
@@ -799,24 +776,45 @@ figure.is-portrait { max-width: 30rem; }
   margin: 3rem 0 0;
   padding: 0;
 }
-/* `contain`, jamais `cover` : une œuvre ne se recadre pas, même en vignette
-   (même principe que .result__media dans la recherche). */
-.artwork-card__media {
+/* La vignette prend toute la largeur de sa colonne et garde son format propre :
+   aucun cadre imposé, donc aucun recadrage ni aucune bande blanche — une œuvre
+   ne se rogne pas (même principe que .result__media dans la recherche).
+   Les hauteurs diffèrent donc d'une carte à l'autre. La carte est une colonne
+   flex dont le contenu est plaqué en bas (`flex-end`) : l'image descend contre
+   sa légende et le blanc d'une ligne de grille — étirée à la plus haute — se
+   reporte au-dessus. Images et légendes reposent ainsi sur deux lignes communes.
+   Les <img> portent leurs dimensions natives : sans elles, une hauteur libre
+   ferait sauter la grille au fur et à mesure des chargements. */
+.artwork-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  transition: border-color 0.2s;
+}
+/* Survol : le liseré prend la sauge et le bandeau s'assombrit d'un ton — la
+   carte se détache sans bouger ni porter d'ombre. Pas de `cursor: pointer` :
+   rien n'est cliquable tant que les vignettes ne mènent pas aux fiches. */
+.artwork-card:hover { border-color: var(--c-accent); }
+.artwork-card:hover .artwork-card__caption { background: #ebe5da; }
+.artwork-card:hover .artwork-card__title { color: var(--c-accent-ink); }
+/* Aucun filet sur le cadre interne : celui de la carte encadre déjà la
+   reproduction, qui vient au contact du liseré comme une planche collée. */
+.artwork-card__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Faute d'image, plus rien ne donne sa hauteur au cadre : on lui en impose une.
+   La mention en italique suffit à signaler l'absence — le filet en tirets de
+   .placeholder-media doublerait le liseré de la carte. */
+.artwork-card__media.empty {
   aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border: 1px solid var(--c-rule);
 }
-.artwork-card__media img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-/* Reprend le filet en tirets de .placeholder-media : signale l'absence
-   d'image sans se confondre avec une vignette réelle. */
-.artwork-card__media.empty { border-style: dashed; }
 .artwork-card__placeholder {
   padding: 0 1rem;
   font-size: 0.8rem;
@@ -824,7 +822,14 @@ figure.is-portrait { max-width: 30rem; }
   color: var(--c-secondary);
   text-align: center;
 }
-.artwork-card__caption { margin: 0.9rem 0 0; }
+/* Bandeau de signalétique : un fond un ton au-dessus du blanc de la
+   reproduction, assez pour détacher le texte de l'image sans filet. */
+.artwork-card__caption {
+  margin: 0;
+  padding: 0.85rem 1rem 1rem;
+  background: #f3efe9;
+  transition: background-color 0.2s;
+}
 .artwork-card__ref {
   display: block;
   font-family: var(--font-body);
@@ -1382,6 +1387,12 @@ body.is-searching .hero { display: none; }
     padding-right: 3vw;
     transition: max-width 0.28s ease, padding-left 0.28s ease;
   }
+  /* Fiche œuvre : la bande s'élargit, elle porte deux colonnes et non une
+     colonne de lecture centrée. Seule la valeur de --w-page change, le calcul
+     de la gouttière reste celui de toutes les pages. Les blocs .reading de la
+     fiche (notes, bouton de collection) restent plafonnés à --w-read. */
+  body.is-artwork { --w-page: 1280px; }
+
   /* Sommaire escamoté (état mémorisé) : le menu sort par la gauche et la
      colonne de lecture récupère la gouttière en se recentrant. */
   .toc-collapsed .toc { --toc-x: -100%; }

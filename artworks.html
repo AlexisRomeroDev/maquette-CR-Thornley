@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <!-- Feuille de style versionnée : incrémenter ?v= à chaque modification de
+       style.css, sinon les navigateurs continuent de servir leur copie en cache. -->
+  <link rel="stylesheet" href="style.css?v=2">
   <!-- Sommaire replié : appliqué avant l'affichage pour éviter tout saut. -->
   <script>try{if(localStorage.getItem('toc-collapsed')==='1'){document.documentElement.classList.add('toc-collapsed');}}catch(e){}</script>
 </head>
@@ -96,31 +98,86 @@
             </p>
           </div>
 
-          <fieldset class="filters__field filters__field--wide">
-            <legend class="filters__label">Technique</legend>
-            <div class="filters__chips">
-              <label class="chip">
-                <input type="checkbox" name="technique" value="huile">
-                <span>Huile</span>
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="technique" value="aquarelle">
-                <span>Aquarelle</span>
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="technique" value="dessin">
-                <span>Dessin</span>
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="technique" value="pastel">
-                <span>Pastel</span>
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="technique" value="estampe">
-                <span>Estampe</span>
-              </label>
-            </div>
-          </fieldset>
+          <div class="filters__field">
+            <label class="filters__label" for="filter-place">Lieu représenté</label>
+            <select class="filters__select" id="filter-place">
+              <option selected>Tous les lieux</option>
+              <optgroup label="France">
+                <option>Antibes (Alpes-Maritimes)</option>
+                <option>Bon Repos (Côtes-d'Armor)</option>
+                <option>Cagnes-sur-Mer (Alpes-Maritimes)</option>
+                <option>Cassis (Bouches-du-Rhône)</option>
+                <option>Cavalaire (Var)</option>
+                <option>Chars (Val-d'Oise)</option>
+                <option>Dieppe (Seine-Maritime)</option>
+                <option>Dinan (Côtes-d'Armor)</option>
+                <option>Dorceau (Orne)</option>
+                <option>Étretat (Seine-Maritime)</option>
+                <option>Flamanville (Manche)</option>
+                <option>Gisors (Eure)</option>
+                <option>Giverny</option>
+                <option>Golfe-Juan (Alpes-Maritimes)</option>
+                <option>Huelgoat (Finistère)</option>
+                <option>Île de Bréhat (Côtes-d'Armor)</option>
+                <option>Le Trayas (Var)</option>
+                <option>Léhon (Côtes-d'Armor)</option>
+                <option>Les Andelys (Eure)</option>
+                <option>Longueville (Seine-Maritime)</option>
+                <option>Lourdes (Hautes-Pyrénées)</option>
+                <option>Menton (Alpes-Maritimes)</option>
+                <option>Mont Saint-Gilles (Manche)</option>
+                <option>Mont Saint-Michel (Manche)</option>
+                <option>Montfermeil</option>
+                <option>Nonette (Puy-de-Dôme)</option>
+                <option>Offranville (Seine-Maritime)</option>
+                <option>Osny (Val-d'Oise)</option>
+                <option>Paris</option>
+                <option>Pont-en-Royans (Isère)</option>
+                <option>Pontavert (Aisne)</option>
+                <option>Pontoise (Val-d'Oise)</option>
+                <option>Pourville (Seine-Maritime)</option>
+                <option>Presqu'île de Gien (Var)</option>
+                <option>Puys (Seine-Maritime)</option>
+                <option>Rémalard (Orne)</option>
+                <option>Roquebrune-Cap-Martin (Alpes-Maritimes)</option>
+                <option>Rouen (Seine-Maritime)</option>
+                <option>Saint-Paul-de-Vence (Alpes-Maritimes)</option>
+                <option>Sainte-Maxime (Var)</option>
+                <option>Santeuil (Val-d'Oise)</option>
+                <option>Toulon</option>
+                <option>Vaire-Arcier (Doubs)</option>
+                <option>Varengeville (Seine-Maritime)</option>
+                <option>Vence (Alpes-Maritimes)</option>
+                <option>Villefranche-sur-Mer (Alpes-Maritimes)</option>
+                <option>Villeneuve-Loubet (Alpes-Maritimes)</option>
+              </optgroup>
+              <optgroup label="Étranger">
+                <option>Amsterdam (Pays-Bas)</option>
+                <option>Apricale (Ligurie, Italie)</option>
+                <option>Bordighera (Ligurie, Italie)</option>
+                <option>Bruges (Belgique)</option>
+                <option>Dordrecht (Pays-Bas)</option>
+                <option>Edam (Pays-Bas)</option>
+                <option>Katwijk (Pays-Bas)</option>
+                <option>Monnikendam (Pays-Bas)</option>
+                <option>San Remo (Ligurie, Italie)</option>
+                <option>Schouwen-Duiveland (Pays-Bas)</option>
+                <option>Venise (Italie)</option>
+                <option>Volendam (Pays-Bas)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="filters__field">
+            <label class="filters__label" for="filter-collection">Collection</label>
+            <select class="filters__select" id="filter-collection">
+              <option selected>Toutes les collections</option>
+              <option>Collection particulière</option>
+              <option>Osny, Musée William Thornley</option>
+              <option>Pontoise, MAHPP</option>
+              <option>Strasbourg, Musée des Beaux-Arts</option>
+            </select>
+          </div>
 
         </div>
 
@@ -147,7 +204,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Lapin-agile-sans-cadre-6a2ac592267e8.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Lapin-agile-sans-cadre-6a2ac592267e8.png"
+                 width="240" height="120" style="aspect-ratio:240/120;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#2</span>
@@ -157,7 +215,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Auotprtrait-de-l-artiste-1878-colelction-prieve-recadree-6929753482af4.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Auotprtrait-de-l-artiste-1878-colelction-prieve-recadree-6929753482af4.png"
+                 width="240" height="292" style="aspect-ratio:240/292;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#3</span>
@@ -167,7 +226,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Pecheur-au-pied-du-chateau-Pont-en-Royans-692efdb31952a.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Pecheur-au-pied-du-chateau-Pont-en-Royans-692efdb31952a.jpg"
+                 width="240" height="160" style="aspect-ratio:240/160;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#4</span>
@@ -177,7 +237,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/PONT-EN-ROYANS-Antiquaire-Eric-de-Bregeot-10-03-2022-692f05c0ac8b8.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/PONT-EN-ROYANS-Antiquaire-Eric-de-Bregeot-10-03-2022-692f05c0ac8b8.jpg"
+                 width="240" height="181" style="aspect-ratio:240/181;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#5</span>
@@ -187,7 +248,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-France-photo-d-ensemble-02-03-2026-69a591833a8ba.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-France-photo-d-ensemble-02-03-2026-69a591833a8ba.jpg"
+                 width="240" height="164" style="aspect-ratio:240/164;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#6</span>
@@ -207,7 +269,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Vallon-sans-cadre-6a2ffb3946c4e.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Vallon-sans-cadre-6a2ffb3946c4e.png"
+                 width="240" height="87" style="aspect-ratio:240/87;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#8</span>
@@ -217,7 +280,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Promeneurs-pres-du-village-69f0a90f70c8b.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Promeneurs-pres-du-village-69f0a90f70c8b.png"
+                 width="240" height="139" style="aspect-ratio:240/139;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#9</span>
@@ -257,7 +321,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/William-Thorney-paysage-de-la-Manche-en-GRAND-692fe6495db7f.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/William-Thorney-paysage-de-la-Manche-en-GRAND-692fe6495db7f.jpg"
+                 width="240" height="161" style="aspect-ratio:240/161;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#13</span>
@@ -277,7 +342,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/15N06-001bis-692febd99547e.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/15N06-001bis-692febd99547e.jpg"
+                 width="240" height="182" style="aspect-ratio:240/182;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#15</span>
@@ -297,7 +363,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/58-69fa342f2aeef.jpg">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/58-69fa342f2aeef.jpg"
+                 width="240" height="181" style="aspect-ratio:240/181;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#17</span>
@@ -307,7 +374,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-Bretagne-recadre-sans-cadre-2-6a3684fa8faab.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-Bretagne-recadre-sans-cadre-2-6a3684fa8faab.png"
+                 width="240" height="176" style="aspect-ratio:240/176;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#18</span>
@@ -327,7 +395,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Meules-en-hiver-a-Osny-696b99e90bec9.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Meules-en-hiver-a-Osny-696b99e90bec9.png"
+                 width="240" height="198" style="aspect-ratio:240/198;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#20</span>
@@ -407,7 +476,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/GWT-Paysage-cotier-anime-6a350fe596086.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/GWT-Paysage-cotier-anime-6a350fe596086.png"
+                 width="240" height="173" style="aspect-ratio:240/173;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#28</span>
@@ -417,7 +487,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Port-Asterdam-SNBA-1898-6a35103bb53a1.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Port-Asterdam-SNBA-1898-6a35103bb53a1.png"
+                 width="240" height="174" style="aspect-ratio:240/174;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#29</span>
@@ -427,7 +498,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Katwijk-en-Hollande-15-06-2026-retravaillee-6a35111e915b7.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Katwijk-en-Hollande-15-06-2026-retravaillee-6a35111e915b7.png"
+                 width="240" height="201" style="aspect-ratio:240/201;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#30</span>
@@ -487,7 +559,8 @@
         </li>
         <li class="artwork-card">
           <div class="artwork-card__media">
-            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Vallon-a-Osny-6a37dfbce49aa.png">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Vallon-a-Osny-6a37dfbce49aa.png"
+                 width="240" height="151" style="aspect-ratio:240/151;">
           </div>
           <p class="artwork-card__caption">
             <span class="artwork-card__ref">#36</span>
@@ -553,6 +626,6 @@
   </main>
 
   <script src="search-data.demo.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>
