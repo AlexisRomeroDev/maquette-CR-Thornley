@@ -904,6 +904,9 @@ figure.is-portrait { max-width: 30rem; }
    l'intitulé de sa liste — comme le blanc de conduite d'un index imprimé. */
 .index-list { list-style: none; margin: 2.5rem 0 0; padding: 0; }
 .index-entry + .index-entry { margin-top: 2.4rem; }
+/* Index de noms seuls (collections) : sans liste d'œuvres sous chaque entrée,
+   l'écartement des index détaillés laisserait flotter quatre lignes. */
+.index-list--names .index-entry + .index-entry { margin-top: 1.1rem; }
 .index-entry__head {
   display: flex;
   flex-wrap: wrap;
