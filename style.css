@@ -393,6 +393,152 @@ strong { font-weight: 600; }
   color: var(--c-secondary);
 }
 
+/* Fiche œuvre (artwork.html) : deux colonnes dans la bande de page entière —
+   image et signalétique ne tiennent pas dans les 800px de la colonne de
+   lecture. Rubriques toujours ouvertes (pas d'accordéon) : le rythme calme
+   du cahier des charges prime sur la densité d'une fiche interactive. */
+/* Une seule colonne sous 900px (même seuil que .contact-grid) : empilées,
+   image d'abord, puis les boutons Précédent/Suivant. */
+.artwork-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: var(--space);
+}
+.artwork-switch__btn {
+  flex: 1 1 0;
+  padding: 0.85rem 1.15rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--c-secondary-ink);
+  background: transparent;
+  border: 1px solid var(--c-rule);
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+}
+.artwork-switch__btn:hover {
+  opacity: 1;
+  border-color: var(--c-accent-ink);
+  color: var(--c-accent-ink);
+}
+@media (min-width: 900px) {
+  .artwork-switch { flex-direction: row; }
+  .artwork-switch__btn:last-child { text-align: right; }
+}
+
+.artwork-detail { gap: clamp(2rem, 5vw, 4rem); }
+@media (min-width: 900px) {
+  .artwork-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+.artwork-detail__media { margin: 0 0 2rem; }
+/* `figure img` (règle de la section 7) fournit déjà cadre, fond et curseur
+   de zoom ; seuls le centrage et le plafond de largeur hérités de `figure`
+   doivent être neutralisés ici. */
+.artwork-detail__figure { margin: 0; max-width: none; }
+.artwork-detail__figure + .artwork-detail__thumbs { margin-top: 0.75rem; }
+
+/* Vues secondaires (autre état, verso…) : mêmes cadre/fond/zoom que la figure
+   principale, en plus petit — jamais recadrées (`contain`), comme partout
+   ailleurs sur le site pour une reproduction d'œuvre. */
+.artwork-detail__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.artwork-detail__thumbs figure {
+  margin: 0;
+  max-width: none;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+}
+.artwork-detail__thumbs img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 0;
+  cursor: zoom-in;
+}
+
+.artwork-detail__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 1rem;
+}
+.artwork-detail__info h1 { margin-bottom: 1.75rem; }
+/* Titre de vente ou variante ancienne : rapprochée du titre principal, la
+   marge du h1 reste inchangée pour les fiches sans sous-titre (cf. artwork.html). */
+.artwork-detail__subtitle {
+  font-family: var(--font-title);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--c-secondary);
+  margin: -1.25rem 0 1.75rem;
+}
+
+.artwork-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 0 0 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--c-rule);
+}
+.artwork-detail__meta dt {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-secondary);
+  margin-bottom: 0.25rem;
+}
+.artwork-detail__meta dd {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  color: var(--c-text);
+}
+
+.artwork-detail__sections > section + section { margin-top: 2.25rem; }
+.artwork-detail__sections h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.5rem;
+}
+.artwork-detail__sections p,
+.artwork-detail__sections li { line-height: 1.7; }
+.artwork-detail__sections ul { padding-left: 1.2rem; margin: 0 0 0.75rem; }
+.artwork-detail__sections li + li { margin-top: 0.4rem; }
+/* Image en relation (ex. « Œuvre en relation ») : rythme de paragraphe plutôt
+   que les 3rem/centrage par défaut d'une figure de chapitre. */
+.artwork-detail__sections figure { margin: 0.75rem 0 1rem; max-width: none; }
+
+.artwork-detail__pdf { margin-top: 2.5rem; text-align: right; }
+
+.artwork-detail__aside {
+  margin-top: var(--space);
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-rule);
+}
+
 /* 7. Figures ------------------------------------------------------------ */
 /* Compteur automatique des figures (réinitialisé par chapitre) */
 .chapter { counter-reset: figure; }
