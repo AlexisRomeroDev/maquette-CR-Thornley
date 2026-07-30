@@ -339,6 +339,11 @@ strong { font-weight: 600; }
   margin-bottom: 1rem;
 }
 .chapter__title { font-size: clamp(2rem, 5vw, 3rem); }
+/* Ouverture de groupe subordonnée : même composition, une voix plus basse.
+   Un h2 au corps du h1 rivalise avec lui dès que le chapitre d'entrée est
+   court et que les groupes le suivent de près (index des personnalités). */
+.chapter__head--sub { margin-bottom: 2.5rem; }
+.chapter__head--sub .chapter__title { font-size: clamp(1.4rem, 3vw, 1.9rem); }
 
 /* Ouverture de « période » (sous-chapitre daté) */
 .period {
