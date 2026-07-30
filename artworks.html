@@ -59,7 +59,426 @@
         <h1 class="chapter__title" id="oeuvres-title">Index des œuvres</h1>
       </div>
       <div class="reading">
-        <p class="lead">Cette section accueillera l'index des œuvres cataloguées de William Thornley. Contenu à intégrer.</p>
+        <p class="lead">Cette page réunit les œuvres cataloguées de William Thornley, classées par ordre chronologique.</p>
+      </div>
+
+      <!-- Données d'exemple, en attente de la sortie du CMS maison (cf. search-data.demo.js) :
+           numéros, titres et dates sont fictifs et n'ont aucune valeur de catalogage.
+           Seules les 40 premières œuvres (sur 172) sont listées ici : la pagination est
+           purement visuelle (pas de JS) tant que le CMS ne fournit pas les pages suivantes. -->
+      <ul class="artworks-grid">
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#1</span>
+            <span class="artwork-card__title">Nature morte au pichet en grès et pot à tabac</span>
+            <span class="artwork-card__year">1870</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Lapin-agile-sans-cadre-6a2ac592267e8.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#2</span>
+            <span class="artwork-card__title">Au Lapin agile</span>
+            <span class="artwork-card__year">1874</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Auotprtrait-de-l-artiste-1878-colelction-prieve-recadree-6929753482af4.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#3</span>
+            <span class="artwork-card__title">Autoportrait (?) de l&#x27;artiste</span>
+            <span class="artwork-card__year">1878</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Pecheur-au-pied-du-chateau-Pont-en-Royans-692efdb31952a.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#4</span>
+            <span class="artwork-card__title">Pont-en-Royans (titre rétabli) [Isère]</span>
+            <span class="artwork-card__year">1879</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/PONT-EN-ROYANS-Antiquaire-Eric-de-Bregeot-10-03-2022-692f05c0ac8b8.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#5</span>
+            <span class="artwork-card__title">Pont-en-Royans, les maisons suspendues</span>
+            <span class="artwork-card__year">1879</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-France-photo-d-ensemble-02-03-2026-69a591833a8ba.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#6</span>
+            <span class="artwork-card__title">Französishe Landschaft im Mittelgebirge-mit Heuernte</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#7</span>
+            <span class="artwork-card__title">Les Cornettes de Bise [Savoie]</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Vallon-sans-cadre-6a2ffb3946c4e.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#8</span>
+            <span class="artwork-card__title">Paysage vallonné en automne au temps menaçant</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Promeneurs-pres-du-village-69f0a90f70c8b.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#9</span>
+            <span class="artwork-card__title">Promeneurs près du village</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#10</span>
+            <span class="artwork-card__title">L&#x27;Estacade [Paris]</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#11</span>
+            <span class="artwork-card__title">Toulon</span>
+            <span class="artwork-card__year">1880</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#12</span>
+            <span class="artwork-card__title">Vue prise à Montfermeil</span>
+            <span class="artwork-card__year">1884</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/William-Thorney-paysage-de-la-Manche-en-GRAND-692fe6495db7f.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#13</span>
+            <span class="artwork-card__title">Ville du bord de mer, Paysage de la Manche</span>
+            <span class="artwork-card__year">1885</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#14</span>
+            <span class="artwork-card__title">Paysage aux environs de Pontavert (Aisne)</span>
+            <span class="artwork-card__year">1887</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/15N06-001bis-692febd99547e.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#15</span>
+            <span class="artwork-card__title">Paysage du Nord de la France (Titre forgé)</span>
+            <span class="artwork-card__year">1887</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#16</span>
+            <span class="artwork-card__title">Retour des pêcheurs avant la tempête</span>
+            <span class="artwork-card__year">1887</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/58-69fa342f2aeef.jpg">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#17</span>
+            <span class="artwork-card__title">Paysage de Bretagne [bord de mer]</span>
+            <span class="artwork-card__year">1888</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Paysage-de-Bretagne-recadre-sans-cadre-2-6a3684fa8faab.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#18</span>
+            <span class="artwork-card__title">Paysage de Bretagne (Côte rocheuse)</span>
+            <span class="artwork-card__year">1890</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#19</span>
+            <span class="artwork-card__title">Giverny</span>
+            <span class="artwork-card__year">1890</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Meules-en-hiver-a-Osny-696b99e90bec9.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#20</span>
+            <span class="artwork-card__title">Les meules en hiver à Osny [Val-d&#x27;Oise]</span>
+            <span class="artwork-card__year">1890</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#21</span>
+            <span class="artwork-card__title">La Seine aux Andelys [Eure]</span>
+            <span class="artwork-card__year">1890</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#22</span>
+            <span class="artwork-card__title">Montagnes à Villeneuve-Loubet [Alpes-Maritimes]</span>
+            <span class="artwork-card__year">1891</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#23</span>
+            <span class="artwork-card__title">L&#x27;église d&#x27;Osny [Val-d&#x27;Oise]</span>
+            <span class="artwork-card__year">1895</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#24</span>
+            <span class="artwork-card__title">Paysage basque [Pyrénées Atlantiques]</span>
+            <span class="artwork-card__year">1895</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#25</span>
+            <span class="artwork-card__title">Route de Flamanville [Manche]</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#26</span>
+            <span class="artwork-card__title">Roches (soleil couchant)</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#27</span>
+            <span class="artwork-card__title">Le Mont Saint-Gilles [Manche]</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/GWT-Paysage-cotier-anime-6a350fe596086.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#28</span>
+            <span class="artwork-card__title">Vue du Mont Saint-Gilles [Manche] (titre forgé)</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Port-Asterdam-SNBA-1898-6a35103bb53a1.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#29</span>
+            <span class="artwork-card__title">Vue du port d&#x27;Amsterdam</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Katwijk-en-Hollande-15-06-2026-retravaillee-6a35111e915b7.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#30</span>
+            <span class="artwork-card__title">Katwijk [Katwijk aan Zee, Pays-Bas, Hollande méridionale]</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#31</span>
+            <span class="artwork-card__title">Moulins, Île de Scouvens [sic]-[Ile de Schouwen-Duiveland-Pays-Bas</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#32</span>
+            <span class="artwork-card__title">Moulins à Dordrecht [Pays-Bas]</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#33</span>
+            <span class="artwork-card__title">Les moulins en Hollande</span>
+            <span class="artwork-card__year">1897</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#34</span>
+            <span class="artwork-card__title">Lavoir près Gisors (Eure)</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#35</span>
+            <span class="artwork-card__title">Effet de neige à Osny (Seine-et-Oise) [Val-d&#x27;Oise]</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media">
+            <img loading="lazy" alt="" src="https://www.mareetmartin.com/media/cache/artworkPicture_user_list/uploads/images/artworks/Le-Vallon-a-Osny-6a37dfbce49aa.png">
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#36</span>
+            <span class="artwork-card__title">Le Vallon à Osny [Val-d&#x27;Oise]</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#37</span>
+            <span class="artwork-card__title">La Seine aux environs de Rouen</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#38</span>
+            <span class="artwork-card__title">La Seine le matin, près Rouen</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#39</span>
+            <span class="artwork-card__title">Route dans le Doubs, le soir</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+        <li class="artwork-card">
+          <div class="artwork-card__media empty">
+            <p class="artwork-card__placeholder">Pas d'image disponible</p>
+          </div>
+          <p class="artwork-card__caption">
+            <span class="artwork-card__ref">#40</span>
+            <span class="artwork-card__title">Etang</span>
+            <span class="artwork-card__year">1898</span>
+          </p>
+        </li>
+      </ul>
+
+      <div class="pagination-bar">
+        <p class="pagination__count">1–40 sur 172 œuvres</p>
+        <nav class="pagination" aria-label="Pagination de l’index des œuvres">
+          <button type="button" class="pagination__btn" disabled>‹ Précédent</button>
+          <button type="button" class="pagination__btn" aria-current="page">1</button>
+          <button type="button" class="pagination__btn">2</button>
+          <span class="pagination__ellipsis" aria-hidden="true">…</span>
+          <button type="button" class="pagination__btn">5</button>
+          <button type="button" class="pagination__btn">Suivant ›</button>
+        </nav>
       </div>
     </section>
 

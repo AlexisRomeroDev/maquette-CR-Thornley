@@ -446,6 +446,118 @@ figure.is-portrait { max-width: 30rem; }
 .gallery figcaption::before { content: "Figure " counter(figure); }
 /* Les figures d'une galerie partagent le compteur global du chapitre */
 
+/* Grille d'index (Index des œuvres et pages similaires) : vignettes carrées,
+   plus dense qu'une .gallery de chapitre — ces index comptent des dizaines,
+   voire des centaines d'entrées à terme. `auto-fill` évite tout point de
+   rupture arbitraire : la grille se redistribue seule à chaque largeur, y
+   compris sur la bande de page entière (pas seulement la colonne de lecture,
+   trop étroite pour rester lisible au-delà de quelques colonnes). */
+.artworks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2.5rem 1.75rem;
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+}
+/* `contain`, jamais `cover` : une œuvre ne se recadre pas, même en vignette
+   (même principe que .result__media dans la recherche). */
+.artwork-card__media {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid var(--c-rule);
+}
+.artwork-card__media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+/* Reprend le filet en tirets de .placeholder-media : signale l'absence
+   d'image sans se confondre avec une vignette réelle. */
+.artwork-card__media.empty { border-style: dashed; }
+.artwork-card__placeholder {
+  padding: 0 1rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--c-secondary);
+  text-align: center;
+}
+.artwork-card__caption { margin: 0.9rem 0 0; }
+.artwork-card__ref {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  margin-bottom: 0.2rem;
+}
+.artwork-card__title {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--c-text);
+}
+.artwork-card__year {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-secondary);
+  margin-top: 0.2rem;
+}
+
+/* Pied de l'index (compteur + pagination) : construit par script.js, absent
+   sans JS — l'index reste alors une simple liste continue de toutes les
+   œuvres, dégradation acceptable pour une maquette. */
+.pagination-bar {
+  margin-top: var(--space);
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-rule);
+  text-align: center;
+}
+.pagination__count {
+  font-size: 0.82rem;
+  color: var(--c-secondary);
+  margin-bottom: 1.25rem;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.pagination__btn {
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.65rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-rule);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.pagination__btn:hover:not(:disabled) {
+  border-color: var(--c-accent-ink);
+  color: var(--c-accent-ink);
+}
+.pagination__btn[aria-current="page"] {
+  border-color: var(--c-accent-ink);
+  color: var(--c-accent-ink);
+  font-weight: 600;
+}
+.pagination__btn:disabled { opacity: 0.35; cursor: default; }
+.pagination__ellipsis {
+  color: var(--c-secondary);
+  padding: 0 0.15rem;
+}
+
 /* Page « À propos » : prose longue (sous-titres, listes, encarts image).
    Sélecteurs scopés à .about-prose pour ne pas affecter .notes-list & co. */
 .about-prose h3 {
