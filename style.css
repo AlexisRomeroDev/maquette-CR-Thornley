@@ -473,12 +473,13 @@ strong { font-weight: 600; }
      reproduction qu'on borne, et non son cadre — bornée par le cadre elle s'y
      étirerait, la peinture flottant entre deux bandes blanches. Elle cède sur
      la contrainte la plus serrée, largeur de colonne ou hauteur de fenêtre, et
-     recalcule l'autre : le rapport est conservé, jamais de recadrage. */
+     recalcule l'autre : le rapport est conservé, jamais de recadrage.
+
+     Seul le plafond de HAUTEUR est ici : il n'a de sens que sous le régime
+     collant. La taille propre de la reproduction, elle, vaut à toutes les
+     largeurs — règle sans condition plus bas. */
   .artwork-detail__figure img {
-    width: auto;
-    max-width: 100%;
     max-height: calc(100vh - var(--sticky-top) - var(--thumbs-room) - 1.5rem);
-    margin-inline: auto;
   }
 }
 @media (min-width: 1100px) {
@@ -490,6 +491,26 @@ strong { font-weight: 600; }
    de zoom ; seuls le centrage et le plafond de largeur hérités de `figure`
    doivent être neutralisés ici. */
 .artwork-detail__figure { margin: 0; max-width: none; }
+
+/* La reproduction garde sa taille propre, à TOUTES les largeurs.
+   `figure img` (section 7) pose `width: 100%` : ce qu'il faut à une figure de
+   la colonne de lecture, qui remplit son cadre. Appliqué à la reproduction
+   principale, il souffle les petites planches — une image de 159 px de large
+   étalée sur toute la colonne, floue. Un catalogue raisonné ne fabrique pas
+   les pixels qu'il n'a pas : une reproduction plus petite que sa place
+   s'affiche plus petite, centrée dans le vide qu'elle laisse.
+
+   ⚠️ Ce garde-fou n'existait que dans la requête ≥ 900 px, alors que
+   `max-width: none` ci-dessus, lui, s'applique sans condition : sous 900 px la
+   figure n'avait donc plus aucun plafond et l'image reprenait toute la
+   largeur. C'est le régime étroit qui était touché, le plus difficile à voir
+   depuis un poste de travail. */
+.artwork-detail__figure img {
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
 .artwork-detail__figure + .artwork-detail__thumbs { margin-top: 0.75rem; }
 
 /* Vues secondaires (autre état, verso…) : mêmes cadre/fond/zoom que la figure
